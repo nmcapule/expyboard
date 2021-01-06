@@ -1,9 +1,9 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
 
-  import Draggable from './Draggable.svelte';
-  import PhotoPost from './PhotoPost.svelte';
-  import type { PositionedPost } from '../models/post';
+  import Draggable from './components/Draggable.svelte';
+  import PostRenderer from './PostRenderer.svelte';
+  import type { PositionedPost } from './models/post';
 
   // Events.
   const EVENT_CREATE = 'create';
@@ -14,6 +14,8 @@
 
   // List of input posts.
   export let posts: PositionedPost[] = [];
+  export let width: number;
+  export let height: number;
 
   let focusedElementUUID = '';
 
@@ -55,33 +57,39 @@
   function handleMouseover(event: CustomEvent) {
     focusedElementUUID = event.detail.uuid;
   }
+
+  function handleMousewheel(event: WheelEvent) {}
+
+  export let zoom = 1;
+  $: if (document.querySelector('.board')) {
+    (document.querySelector('.board') as HTMLElement).style.transform = `scale(${zoom})`;
+  }
 </script>
 
 <style>
   .board {
+    position: relative;
     background-color: rgba(100, 80, 192, 0.2);
     border: 1px solid black;
-    width: 100%;
-    height: 100%;
+    transform-origin: top left;
   }
 </style>
 
-<svelte:window on:keypress={handleKeypress} />
+<svelte:window on:keydown={handleKeypress} />
 
-<div class="board" on:mousemove={handleMousemove}>
+<div
+  class="board"
+  on:mousemove={handleMousemove}
+  on:wheel={handleMousewheel}
+  style="width:{width}px;height:{height}px">
   {#each posts as post (post.data.uuid)}
     <Draggable
       uuid={post.data.uuid}
       position={post.position}
+      focusable={true}
       on:move={handleDraggableMove}
       on:hover={handleMouseover}>
-      {#if post.data.type === 'text'}
-        <div>{post.data.data}</div>
-      {:else if post.data.type === 'photo'}
-        <PhotoPost post={post.data}>{post.data.uuid}</PhotoPost>
-      {:else}
-        <div>Unknown type: {post.data.type}</div>
-      {/if}
+      <PostRenderer post={post.data} />
     </Draggable>
   {/each}
 </div>

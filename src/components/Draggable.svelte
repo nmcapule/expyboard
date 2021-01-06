@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount, onDestroy, createEventDispatcher } from 'svelte';
   import interact from 'interactjs';
+  import { v4 as uuidv4 } from 'uuid';
 
   import type { DraggablePosition } from '../models/draggable';
 
@@ -11,13 +12,15 @@
   const dispatch = createEventDispatcher();
 
   // Component UUID.
-  export let uuid: string;
+  export let uuid = uuidv4();
   // Component position.
   export let position: DraggablePosition = {
     x: 0,
     y: 0,
     a: 0,
   };
+  // If component is focusable.
+  export let focusable = false;
 
   // CSS selector for the generated uuid.
   const selector = '#' + CSS.escape(uuid);
@@ -26,6 +29,9 @@
 
   onMount(() => {
     target = document.querySelector(selector);
+
+    // We unset first, just to be sure.
+    interact(selector).unset();
 
     interact(selector).draggable({
       inertia: true,
@@ -78,11 +84,11 @@
     -webkit-transform: translate(0px, 0px);
   }
 
-  .draggable:hover {
+  .draggable.focusable:hover {
     outline: 1px dashed red;
   }
 </style>
 
-<div id={uuid} class="draggable" on:mouseover={handleMouseover}>
+<div id={uuid} class="draggable" class:focusable on:mouseover={handleMouseover}>
   <slot />
 </div>
