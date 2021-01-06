@@ -62,7 +62,13 @@
   }
 
   async function handleLoadBoard() {
-    posts = await localforage.getItem(STORAGE_BOARD_POSTS);
+    const savedPosts: any = await localforage.getItem(STORAGE_BOARD_POSTS);
+    if (!savedPosts) {
+      handleResetBoard();
+      return;
+    }
+
+    posts = savedPosts;
 
     const boardConfig: any = await localforage.getItem(STORAGE_BOARD_CONFIG);
     if (boardConfig) {
@@ -148,6 +154,7 @@
         on:click={() => scrollIntoView(post.data.uuid)}>{post.data.uuid}</button>
     {/each}
     <pre>
+You can drag things in the board.
 Press 'a' to add new element.
 Press 'd' to delete element.
     </pre>
