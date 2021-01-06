@@ -103,11 +103,18 @@
 
   main > .nav {
     padding: 5px;
-    width: 300px;
+    width: 250px;
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow-y: scroll;
+  }
+
+  main > .nav > .control {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
   }
 
   main > .content {
@@ -123,14 +130,27 @@
       <button type="button" on:click={handleSaveBoard}>Save</button>
       <button type="button" on:click={handleLoadBoard}>Load</button>
     </div>
-    <input type="range" bind:value={width} min="500" max="5000" step="10" />
-    <input type="range" bind:value={height} min="500" max="5000" step="10" />
-    <input type="range" bind:value={zoom} min="0.5" max="3.0" step="0.1" />
+    <div class="control">
+      <pre>Width</pre>
+      <input type="range" bind:value={width} min="500" max="5000" step="10" />
+    </div>
+    <div class="control">
+      <pre>Height</pre>
+      <input type="range" bind:value={height} min="500" max="5000" step="10" />
+    </div>
+    <div class="control">
+      <pre>Zoom</pre>
+      <input type="range" bind:value={zoom} min="0.5" max="3.0" step="0.1" />
+    </div>
     {#each posts as post}
       <button
         type="button"
         on:click={() => scrollIntoView(post.data.uuid)}>{post.data.uuid}</button>
     {/each}
+    <pre>
+Press 'a' to add new element.
+Press 'd' to delete element.
+    </pre>
   </div>
   <div class="content">
     <Board
