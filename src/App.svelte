@@ -6,6 +6,7 @@
   import type { PositionedPost, Post } from './models/post';
   import type { DraggablePosition } from './models/draggable';
   import { onMount } from 'svelte';
+  import { App, Button } from 'framework7-svelte';
 
   let posts: PositionedPost[] = [];
   let width = 1000,
@@ -129,44 +130,46 @@
   }
 </style>
 
-<main>
-  <div class="nav">
-    <div>
-      <button type="button" on:click={handleResetBoard}>Reset</button>
-      <button type="button" on:click={handleSaveBoard}>Save</button>
-      <button type="button" on:click={handleLoadBoard}>Load</button>
-    </div>
-    <div class="control">
-      <pre>Width</pre>
-      <input type="range" bind:value={width} min="500" max="5000" step="10" />
-    </div>
-    <div class="control">
-      <pre>Height</pre>
-      <input type="range" bind:value={height} min="500" max="5000" step="10" />
-    </div>
-    <div class="control">
-      <pre>Zoom</pre>
-      <input type="range" bind:value={zoom} min="0.5" max="3.0" step="0.1" />
-    </div>
-    {#each posts as post}
-      <button
-        type="button"
-        on:click={() => scrollIntoView(post.data.uuid)}>{post.data.uuid}</button>
-    {/each}
-    <pre>
+<App theme="ios">
+  <main>
+    <div class="nav">
+      <div>
+        <Button on:click={handleResetBoard}>Reset</Button>
+        <Button on:click={handleSaveBoard}>Save</Button>
+        <Button on:click={handleLoadBoard}>Load</Button>
+      </div>
+      <div class="control">
+        <pre>Width</pre>
+        <input type="range" bind:value={width} min="500" max="5000" step="10" />
+      </div>
+      <div class="control">
+        <pre>Height</pre>
+        <input type="range" bind:value={height} min="500" max="5000" step="10" />
+      </div>
+      <div class="control">
+        <pre>Zoom</pre>
+        <input type="range" bind:value={zoom} min="0.5" max="3.0" step="0.1" />
+      </div>
+      {#each posts as post}
+        <button
+          type="button"
+          on:click={() => scrollIntoView(post.data.uuid)}>{post.data.uuid}</button>
+      {/each}
+      <pre>
 You can drag things in the board.
 Press 'a' to add new element.
 Press 'd' to delete element.
     </pre>
-  </div>
-  <div class="content">
-    <Board
-      {width}
-      {height}
-      {zoom}
-      {posts}
-      on:create={handleCreatePost}
-      on:delete={handleDeletePost}
-      on:position={handleUpdatePostPosition} />
-  </div>
-</main>
+    </div>
+    <div class="content">
+      <Board
+        {width}
+        {height}
+        {zoom}
+        {posts}
+        on:create={handleCreatePost}
+        on:delete={handleDeletePost}
+        on:position={handleUpdatePostPosition} />
+    </div>
+  </main>
+</App>
