@@ -1,5 +1,7 @@
 <script lang="ts">
   import { Page, Navbar, Toolbar, Link } from 'framework7-svelte';
+
+  import App from '../board/App.svelte';
 </script>
 
 <Page>
@@ -11,6 +13,5 @@
     <Link>Link 2</Link>
   </Toolbar>
   <!-- Page Content -->
-  <p>Page content goes here</p>
-  <Link href="/about/">About App</Link>
+  <App />
 </Page>

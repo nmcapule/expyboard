@@ -8,8 +8,8 @@
     "validate": "svelte-check"
   },
   "dependencies": {
-    "framework7": "^5.7.10",
-    "framework7-svelte": "^5.7.10",
+    "framework7": "^5.7.14",
+    "framework7-svelte": "^5.7.14",
     "interactjs": "^1.10.1",
     "localforage": "^1.9.0",
     "postcss": "^8.2.3",
