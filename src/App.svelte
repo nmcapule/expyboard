@@ -6,8 +6,6 @@
 
   const f7params: Framework7Parameters = {
     name: 'Experimental Board',
-    theme: 'auto', // Automatic theme detection
-    autoDarkTheme: true, // Automatic Dark Theme
     routes,
   };
 </script>
@@ -16,5 +14,5 @@
 </style>
 
 <App {...f7params}>
-  <View main={true} class="safe-areas" url="/" masterDetailBreakpoint={800} />
+  <View main={true} url="/" masterDetailBreakpoint={800} />
 </App>
