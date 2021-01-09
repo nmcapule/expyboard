@@ -87,6 +87,7 @@
       uuid={post.data.uuid}
       position={post.position}
       focusable={true}
+      {zoom}
       on:move={handleDraggableMove}
       on:hover={handleMouseover}>
       <PostRenderer post={post.data} />

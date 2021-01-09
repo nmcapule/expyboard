@@ -21,6 +21,8 @@
   };
   // If component is focusable.
   export let focusable = false;
+  // Zoom to adjust drag speed.
+  export let zoom = 1;
 
   // CSS selector for the generated uuid.
   const selector = '#' + CSS.escape(uuid);
@@ -45,8 +47,8 @@
       listeners: {
         move: (event) => {
           position = {
-            x: position.x + event.dx,
-            y: position.y + event.dy,
+            x: position.x + event.dx / zoom,
+            y: position.y + event.dy / zoom,
             a: 0,
           };
         },
