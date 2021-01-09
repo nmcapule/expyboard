@@ -3,7 +3,7 @@
   import interact from 'interactjs';
   import { v4 as uuidv4 } from 'uuid';
 
-  import type { DraggablePosition } from '../models/draggable';
+  import type { DraggablePosition } from './models/draggable';
 
   // Events.
   const EVENT_MOVE = 'move';

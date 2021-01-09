@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
 
-  import Draggable from './components/Draggable.svelte';
+  import Draggable from './Draggable.svelte';
   import PostRenderer from './PostRenderer.svelte';
   import type { PositionedPost } from './models/post';
 

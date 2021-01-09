@@ -1,4 +1,5 @@
 import Framework7, { getDevice, request, utils } from 'framework7/lite';
+
 // import Accordion from 'framework7/components/accordion';
 // import Actions from 'framework7/components/actions';
 // import Appbar from 'framework7/components/appbar';
@@ -17,6 +18,7 @@ import Card from 'framework7/components/card';
 // import Form from 'framework7/components/form';
 // import Gauge from 'framework7/components/gauge';
 // import Grid from 'framework7/components/grid';
+import InfiniteScroll from 'framework7/components/infinite-scroll';
 // import Input from 'framework7/components/input';
 // import Lazy from 'framework7/components/lazy';
 // import ListIndex from 'framework7/components/list-index';
@@ -30,6 +32,7 @@ import Card from 'framework7/components/card';
 // import Picker from 'framework7/components/picker';
 // import Popover from 'framework7/components/popover';
 // import Popup from 'framework7/components/popup';
+import Preloader from 'framework7/components/preloader';
 // import Progressbar from 'framework7/components/progressbar';
 // import PullToRefresh from 'framework7/components/pull-to-refresh';
 // import Radio from 'framework7/components/radio';
@@ -40,6 +43,7 @@ import Card from 'framework7/components/card';
 // import SmartSelect from 'framework7/components/smart-select';
 // import Sortable from 'framework7/components/sortable';
 // import Stepper from 'framework7/components/stepper';
+import Swipeout from 'framework7/components/swipeout';
 // import Swiper from 'framework7/components/swiper';
 // import Tabs from 'framework7/components/tabs';
 // import TextEditor from 'framework7/components/text-editor';
@@ -50,9 +54,6 @@ import Card from 'framework7/components/card';
 // import Treeview from 'framework7/components/treeview';
 // import Typography from 'framework7/components/typography';
 // import VirtualList from 'framework7/components/virtual-list';
-import InfiniteScroll from 'framework7/components/infinite-scroll';
-import Preloader from 'framework7/components/preloader';
-import Swipeout from 'framework7/components/swipeout';
 
 Framework7.use([
   // Accordion,
@@ -73,6 +74,7 @@ Framework7.use([
   // Form,
   // Gauge,
   // Grid,
+  InfiniteScroll,
   // Input,
   // Lazy,
   // ListIndex,
@@ -86,6 +88,7 @@ Framework7.use([
   // Picker,
   // Popover,
   // Popup,
+  Preloader,
   // Progressbar,
   // PullToRefresh,
   // Radio,
@@ -96,6 +99,7 @@ Framework7.use([
   // SmartSelect,
   // Sortable,
   // Stepper,
+  Swipeout,
   // Swiper,
   // Tabs,
   // TextEditor,
@@ -106,9 +110,6 @@ Framework7.use([
   // Treeview,
   // Typography,
   // VirtualList,
-  InfiniteScroll,
-  Preloader,
-  Swipeout,
 ]);
 
 export default Framework7;
