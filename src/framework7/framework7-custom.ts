@@ -18,7 +18,7 @@ import Card from 'framework7/components/card';
 // import Form from 'framework7/components/form';
 // import Gauge from 'framework7/components/gauge';
 // import Grid from 'framework7/components/grid';
-import InfiniteScroll from 'framework7/components/infinite-scroll';
+// import InfiniteScroll from 'framework7/components/infinite-scroll';
 // import Input from 'framework7/components/input';
 // import Lazy from 'framework7/components/lazy';
 // import ListIndex from 'framework7/components/list-index';
@@ -32,7 +32,7 @@ import InfiniteScroll from 'framework7/components/infinite-scroll';
 // import Picker from 'framework7/components/picker';
 // import Popover from 'framework7/components/popover';
 // import Popup from 'framework7/components/popup';
-import Preloader from 'framework7/components/preloader';
+// import Preloader from 'framework7/components/preloader';
 // import Progressbar from 'framework7/components/progressbar';
 // import PullToRefresh from 'framework7/components/pull-to-refresh';
 // import Radio from 'framework7/components/radio';
@@ -43,7 +43,7 @@ import Preloader from 'framework7/components/preloader';
 // import SmartSelect from 'framework7/components/smart-select';
 // import Sortable from 'framework7/components/sortable';
 // import Stepper from 'framework7/components/stepper';
-import Swipeout from 'framework7/components/swipeout';
+// import Swipeout from 'framework7/components/swipeout';
 // import Swiper from 'framework7/components/swiper';
 // import Tabs from 'framework7/components/tabs';
 // import TextEditor from 'framework7/components/text-editor';
@@ -74,7 +74,7 @@ Framework7.use([
   // Form,
   // Gauge,
   // Grid,
-  InfiniteScroll,
+  // InfiniteScroll,
   // Input,
   // Lazy,
   // ListIndex,
@@ -88,7 +88,7 @@ Framework7.use([
   // Picker,
   // Popover,
   // Popup,
-  Preloader,
+  // Preloader,
   // Progressbar,
   // PullToRefresh,
   // Radio,
@@ -99,7 +99,7 @@ Framework7.use([
   // SmartSelect,
   // Sortable,
   // Stepper,
-  Swipeout,
+  // Swipeout,
   // Swiper,
   // Tabs,
   // TextEditor,

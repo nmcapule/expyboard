@@ -7,13 +7,10 @@ import './framework7/framework7-custom.less';
 // Init F7 Svelte Plugin
 Framework7.use(Framework7Svelte);
 
-import App from './board/App.svelte';
+import App from './App.svelte';
 
 const app = new App({
-  target: document.body,
-  props: {
-    name: 'world',
-  },
+  target: document.getElementById('app'),
 });
 
 export default app;
