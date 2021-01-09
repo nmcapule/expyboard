@@ -1,11 +1,12 @@
 <script lang="ts">
   import { App, View } from 'framework7-svelte';
-  import type { Framework7Parameters } from 'framework7/types';
+  import type { Framework7Params } from 'framework7/components/app/app-class';
 
   import routes from './routes';
 
-  const f7params: Framework7Parameters = {
+  const f7params: Framework7Params = {
     name: 'Experimental Board',
+    theme: 'ios',
     routes,
   };
 </script>
