@@ -39,8 +39,8 @@
 
 <style lang="less">
   :root {
-    --spaces-width: 80px;
-    --spaces-icons-size: 60px;
+    --spaces-width: 64px;
+    --spaces-icons-size: 52px;
   }
 
   :global(body) {
@@ -56,17 +56,17 @@
   }
 
   .workspaces-container {
-    padding-top: 8px;
-    padding-bottom: 8px;
+    padding-top: 6px;
+    padding-bottom: 6px;
     height: 100%;
 
     .workspace-item {
       width: var(--spaces-icons-size);
       height: var(--spaces-icons-size);
       border-radius: var(--spaces-icons-size);
-      margin-top: 8px;
-      margin-bottom: 8px;
-      font-size: 1.6em;
+      margin-top: 4px;
+      margin-bottom: 4px;
+      font-size: 1.3em;
       color: var(--color-slate);
       background-color: var(--color-silver);
 
