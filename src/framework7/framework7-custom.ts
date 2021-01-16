@@ -1,6 +1,6 @@
 import Framework7, { Device, Request, Utils } from 'framework7/framework7-lite.esm';
 
-// import Accordion from 'framework7/components/accordion/accordion';
+import Accordion from 'framework7/components/accordion/accordion';
 // import Actions from 'framework7/components/actions/actions';
 // import Appbar from 'framework7/components/appbar/appbar';
 // import Autocomplete from 'framework7/components/autocomplete/autocomplete';
@@ -57,7 +57,7 @@ import Tooltip from 'framework7/components/tooltip/tooltip';
 // import VirtualList from 'framework7/components/virtual-list/virtual-list';
 
 Framework7.use([
-  // Accordion,
+  Accordion,
   // Actions,
   // Appbar,
   // Autocomplete,
