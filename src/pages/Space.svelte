@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Page, Link, Navbar, Toolbar } from 'framework7-svelte';
+  import { Page, Block, Link, Navbar, Toolbar, Row } from 'framework7-svelte';
   import type { Router } from 'framework7/modules/router/router';
 
   export let f7router: Router.Router;

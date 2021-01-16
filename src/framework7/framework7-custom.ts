@@ -18,6 +18,7 @@ import Button from 'framework7/components/button/button';
 // import Form from 'framework7/components/form/form';
 // import Gauge from 'framework7/components/gauge/gauge';
 // import Grid from 'framework7/components/grid/grid';
+import Icon from 'framework7/components/icon/icon';
 // import InfiniteScroll from 'framework7/components/infinite-scroll/infinite-scroll';
 // import Input from 'framework7/components/input/input';
 // import Lazy from 'framework7/components/lazy/lazy';
@@ -27,7 +28,7 @@ import Button from 'framework7/components/button/button';
 // import Messagebar from 'framework7/components/messagebar/messagebar';
 // import Messages from 'framework7/components/messages/messages';
 // import Notification from 'framework7/components/notification/notification';
-// import Panel from 'framework7/components/panel/panel';
+import Panel from 'framework7/components/panel/panel';
 // import PhotoBrowser from 'framework7/components/photo-browser/photo-browser';
 // import Picker from 'framework7/components/picker/picker';
 // import Popover from 'framework7/components/popover/popover';
@@ -50,7 +51,7 @@ import Button from 'framework7/components/button/button';
 // import Timeline from 'framework7/components/timeline/timeline';
 // import Toast from 'framework7/components/toast/toast';
 // import Toggle from 'framework7/components/toggle/toggle';
-// import Tooltip from 'framework7/components/tooltip/tooltip';
+import Tooltip from 'framework7/components/tooltip/tooltip';
 // import Treeview from 'framework7/components/treeview/treeview';
 // import Typography from 'framework7/components/typography/typography';
 // import VirtualList from 'framework7/components/virtual-list/virtual-list';
@@ -74,6 +75,7 @@ Framework7.use([
   // Form,
   // Gauge,
   // Grid,
+  Icon,
   // InfiniteScroll,
   // Input,
   // Lazy,
@@ -83,7 +85,7 @@ Framework7.use([
   // Messagebar,
   // Messages,
   // Notification,
-  // Panel,
+  Panel,
   // PhotoBrowser,
   // Picker,
   // Popover,
@@ -106,7 +108,7 @@ Framework7.use([
   // Timeline,
   // Toast,
   // Toggle,
-  // Tooltip,
+  Tooltip,
   // Treeview,
   // Typography,
   // VirtualList,
