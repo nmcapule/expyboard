@@ -1,10 +1,15 @@
 import type { Router } from 'framework7/modules/router/router';
-import Home from './pages/Home.svelte';
+import Playground from './pages/Playground.svelte';
+import Space from './pages/Space.svelte';
 
 const routes: Router.RouteParameters[] = [
   {
     path: '/',
-    component: Home,
+    component: Playground,
+  },
+  {
+    path: '/space/',
+    component: Space,
   },
 ];
 

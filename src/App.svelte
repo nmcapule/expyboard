@@ -6,14 +6,14 @@
 
   const f7params: Framework7Params = {
     name: 'Experimental Board',
-    theme: 'ios',
+    theme: 'auto', // shit doesn't work.
     routes,
   };
 </script>
 
+<App {...f7params}>
+  <View main pushState url="/" masterDetailBreakpoint={800} />
+</App>
+
 <style lang="less">
 </style>
-
-<App {...f7params}>
-  <View main={true} url="/" masterDetailBreakpoint={800} />
-</App>
