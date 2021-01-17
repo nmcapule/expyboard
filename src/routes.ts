@@ -1,7 +1,7 @@
 import type { Router } from 'framework7/modules/router/router';
 import Playground from './pages/Playground.svelte';
 import SpacesNavigator from './pages/SpacesNavigator.svelte';
-import Space from './pages/Space.svelte';
+import Workspace from './pages/Workspace.svelte';
 
 const routes: Router.RouteParameters[] = [
   {
@@ -11,7 +11,7 @@ const routes: Router.RouteParameters[] = [
     detailRoutes: [
       {
         path: '/space/',
-        component: Space,
+        component: Workspace,
       },
       {
         path: '/playground/',

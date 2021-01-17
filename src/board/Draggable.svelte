@@ -75,6 +75,10 @@
   }
 </script>
 
+<div id={uuid} class="draggable {$$props.class}" class:focusable on:mouseover={handleMouseover}>
+  <slot />
+</div>
+
 <style>
   .draggable {
     position: absolute;
@@ -90,7 +94,3 @@
     outline: 1px dashed red;
   }
 </style>
-
-<div id={uuid} class="draggable" class:focusable on:mouseover={handleMouseover}>
-  <slot />
-</div>
