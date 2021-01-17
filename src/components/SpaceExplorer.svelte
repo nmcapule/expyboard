@@ -1,61 +1,86 @@
 <script lang="ts">
   import { AccordionContent, Block, List, ListItem } from 'framework7-svelte';
+  import { onMount } from 'svelte';
+  import type { Workspace } from '../models/workspace';
+
+  export let workspace: Workspace = {
+    id: 'dummy',
+    name: 'Experimental Workspace #1',
+    active: true,
+  };
+
+  function calculateAccordionContentMaxHeight(accordionEl: HTMLElement) {
+    const containerHeight = accordionEl.offsetHeight;
+    const items = accordionEl.querySelectorAll(
+      '.accordion-item > .item-link, .accordion-item > .accordion-item-toggle',
+    );
+    const itemsHeight = [...items]
+      .map((el: HTMLElement) => el.offsetHeight)
+      .reduce((prev, curr) => prev + curr, 0);
+
+    return containerHeight - itemsHeight;
+  }
+
+  let maxAccordionContentHeight = '100%';
+  onMount(() => {
+    maxAccordionContentHeight = `${calculateAccordionContentMaxHeight(
+      document.querySelector('.explorer-container > .list'),
+    )}px`;
+  });
 </script>
 
-<div class="explorer-container elevation-5">
-  <div class="title p-3">Space Explorer Component</div>
+<div class="explorer-container elevation-5 d-flex flex-column">
+  <div class="title p-2 m-1">{workspace.name}</div>
 
-  <List accordionList>
-    <ListItem accordionItem title="Lorem Ipsum">
-      <AccordionContent>
-        <Block>
-          <p style="height:100%">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean elementum id neque nec
-            commodo. Sed vel justo at turpis laoreet pellentesque quis sed lorem. Integer semper
-            arcu nibh, non mollis arcu tempor vel. Sed pharetra tortor vitae est rhoncus, vel congue
-            dui sollicitudin. Donec eu arcu dignissim felis viverra blandit suscipit eget ipsum.
-          </p>
-        </Block>
+  <List accordionList accordionOpposite>
+    <ListItem accordionItem title="Posts">
+      <AccordionContent style="max-height:{maxAccordionContentHeight}">
+        <Block><p style="height:600px">Placeholder</p></Block>
       </AccordionContent>
     </ListItem>
-  </List>
-  <List accordionList>
-    <ListItem accordionItem title="Nested List">
-      <AccordionContent>
-        <List>
-          <ListItem title="Item 1" />
-          <ListItem title="Item 2" />
-          <ListItem title="Item 3" />
-          <ListItem title="Item 4" />
-        </List>
+    <ListItem accordionItem title="Threads and Pins">
+      <AccordionContent style="max-height:{maxAccordionContentHeight}">
+        <Block><p style="height:300px">Placeholder</p></Block>
       </AccordionContent>
     </ListItem>
-    <ListItem accordionItem title="Integer semper">
-      <AccordionContent>
-        <Block>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean elementum id neque nec
-            commodo. Sed vel justo at turpis laoreet pellentesque quis sed lorem. Integer semper
-            arcu nibh, non mollis arcu tempor vel. Sed pharetra tortor vitae est rhoncus, vel congue
-            dui sollicitudin. Donec eu arcu dignissim felis viverra blandit suscipit eget ipsum.
-          </p>
-        </Block>
+    <ListItem accordionItem title="History">
+      <AccordionContent style="max-height:{maxAccordionContentHeight}">
+        <Block><p style="height:600px">Placeholder</p></Block>
       </AccordionContent>
     </ListItem>
   </List>
 </div>
 
 <style lang="less">
-  .explorer-container > :global(.list) {
-    margin: 0;
+  .explorer-container {
+    --f7-list-item-min-height: 32px;
+    --f7-list-item-padding-vertical: 0;
+
+    > :global(.list) {
+      margin: 0;
+      height: 100%;
+      max-height: 100%;
+    }
+
+    :global(.accordion-item > .item-link) {
+      background-color: var(--color-dark-snow);
+      font-size: 0.8em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    :global(.accordion-item-content) {
+      overflow-y: auto;
+    }
   }
 
   .explorer-container {
     background-color: var(--color-snow);
-    width: 360px;
+    overflow-y: hidden;
+    width: 400px;
 
     > .title {
-      font-size: 1.2em;
+      font-size: 1.25em;
     }
   }
 </style>

@@ -1,8 +1,9 @@
 <script lang="ts">
   import { Icon, Link, Page } from 'framework7-svelte';
   import { v4 as uuidv4 } from 'uuid';
+  import type { Workspace } from '../models/workspace';
 
-  const workspaces = [
+  const workspaces: Workspace[] = [
     {
       id: uuidv4(),
       name: 'Experimental Workspace #1',
