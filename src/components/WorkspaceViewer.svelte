@@ -70,7 +70,8 @@
 
 <div class="workspace-viewer {$$props.class}">
   <div id={viewerElId}>Hola world</div>
-  <div id={pannableElId} class="overlay" on:wheel={handleMouseWheel} />
+  <div id={pannableElId} class="overlay -gesturable" on:wheel={handleMouseWheel} />
+  <div class="overlay"><slot /></div>
 </div>
 
 <style lang="less">
@@ -90,12 +91,15 @@
 
     > .overlay {
       position: absolute;
-      width: 100%;
-      height: 100%;
       top: 0;
       left: 0;
-      touch-action: none;
-      user-select: none;
+
+      &.-gesturable {
+        width: 100%;
+        height: 100%;
+        touch-action: none;
+        user-select: none;
+      }
     }
   }
 </style>

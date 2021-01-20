@@ -1,6 +1,6 @@
 # Experimental Board
 
-Visit me at [/space](nmcapule.github.io/expyboard/#!/space/)
+Visit me at [/space](http://nmcapule.github.io/expyboard/#!/space/)
 
 ## Get started
 
