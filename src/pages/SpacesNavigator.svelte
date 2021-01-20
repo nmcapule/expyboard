@@ -21,7 +21,7 @@
 </script>
 
 <Page class="workspaces-page">
-  <div class="workspaces-container d-flex flex-column align-items-center">
+  <div class="workspaces-container display-flex flex-direction-column align-items-center">
     {#each workspaces as workspace}
       <Link noLinkClass tooltip={workspace.name} class="workspaces-link">
         <div class="workspace-item" class:-active={workspace.active}>
@@ -32,7 +32,7 @@
     <Link noLinkClass tooltip="Add a new workspace" class="workspaces-link">
       <div class="workspace-item -add"><Icon material="add" /></div>
     </Link>
-    <Link noLinkClass tooltip="Settings" class="workspaces-link mt-auto">
+    <Link noLinkClass tooltip="Settings" class="workspaces-link -settings">
       <div class="workspace-item"><Icon material="settings" /></div>
     </Link>
   </div>
@@ -50,15 +50,19 @@
 
   :global(.workspaces-page.page) {
     background-color: var(--color-steel);
+    padding-top: 6px;
+    padding-bottom: 6px;
   }
 
   .workspaces-container > :global(a.workspaces-link) {
     text-decoration: none;
   }
 
+  .workspaces-container > :global(a.workspaces-link.-settings) {
+    margin-top: auto;
+  }
+
   .workspaces-container {
-    padding-top: 6px;
-    padding-bottom: 6px;
     height: 100%;
 
     .workspace-item {

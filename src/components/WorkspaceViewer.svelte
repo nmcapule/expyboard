@@ -52,7 +52,7 @@
   });
 
   function handleMouseWheel(event: WheelEvent) {
-    const adjust = (Math.log2(Math.abs(event.deltaY)) / 33) * Math.sign(event.deltaY);
+    const adjust = (Math.log2(Math.abs(event.deltaY)) / 33) * -Math.sign(event.deltaY);
     viewerState.zoom += adjust;
   }
 

@@ -5,11 +5,14 @@
 </script>
 
 <Page>
-  <div class="workspace-container d-flex h-100">
+  <div class="workspace-container display-flex">
     <SpaceExplorer />
     <WorkspaceViewer />
   </div>
 </Page>
 
 <style lang="less">
+  .workspace-container {
+    height: 100%;
+  }
 </style>

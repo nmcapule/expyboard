@@ -29,8 +29,8 @@
   });
 </script>
 
-<div class="explorer-container elevation-5 d-flex flex-column">
-  <div class="title p-2 m-1">{workspace.name}</div>
+<div class="explorer-container elevation-5 display-flex flex-direction-column">
+  <div class="title">{workspace.name}</div>
 
   <List accordionList accordionOpposite>
     <ListItem accordionItem title="Posts">
@@ -81,6 +81,7 @@
 
     > .title {
       font-size: 1.25em;
+      padding: 12px;
     }
   }
 </style>
