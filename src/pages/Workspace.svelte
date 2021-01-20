@@ -8,9 +8,7 @@
 
 <Page>
   <div class="workspace-container display-flex">
-    {#if showExplorer}
-      <SpaceExplorer />
-    {/if}
+    <SpaceExplorer class={!showExplorer ? 'collapsed' : 'expanded'} />
     <WorkspaceViewer>
       <Button
         class="collapse-button"
@@ -34,11 +32,25 @@
     height: 100%;
   }
 
+  .workspace-container > :global(.collapsed) {
+    pointer-events: none;
+    opacity: 0;
+    width: 0 !important;
+    transition: width 0.25s, opacity 0.25s;
+  }
+
+  .workspace-container > :global(.expanded) {
+    transition: width 0.25s, opacity 0.25s;
+  }
+
   .workspace-container :global(.collapse-button) {
     background-color: var(--color-white);
     color: var(--color-steel);
     width: 40px;
     height: 40px;
     margin: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 </style>

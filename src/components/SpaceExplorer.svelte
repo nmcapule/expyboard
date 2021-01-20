@@ -29,7 +29,7 @@
   });
 </script>
 
-<div class="explorer-container elevation-5 display-flex flex-direction-column">
+<div class="explorer-container elevation-5 display-flex flex-direction-column {$$props.class}">
   <div class="title">{workspace.name}</div>
 
   <List accordionList accordionOpposite>
