@@ -1,14 +1,14 @@
 <script lang="ts">
   import { Button, Icon, Page } from 'framework7-svelte';
-  import SpaceExplorer from '../components/SpaceExplorer.svelte';
-  import WorkspaceViewer from '../components/WorkspaceViewer.svelte';
+  import WorkspaceExplorer from './workspace/WorkspaceExplorer.svelte';
+  import WorkspaceViewer from './workspace/WorkspaceViewer.svelte';
 
   let showExplorer = true;
 </script>
 
 <Page>
   <div class="workspace-container display-flex">
-    <SpaceExplorer class={!showExplorer ? 'collapsed' : 'expanded'} />
+    <WorkspaceExplorer class={!showExplorer ? 'collapsed' : 'expanded'} />
     <WorkspaceViewer>
       <Button
         class="collapse-button"

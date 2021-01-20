@@ -1,7 +1,7 @@
 <script lang="ts">
   import { AccordionContent, Block, List, ListItem } from 'framework7-svelte';
   import { onMount } from 'svelte';
-  import type { Workspace } from '../models/workspace';
+  import type { Workspace } from '../../models/workspace';
 
   export let workspace: Workspace = {
     id: 'dummy',
