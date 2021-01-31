@@ -1,15 +1,26 @@
 <script lang="ts">
-  import { Button, Icon, Page } from 'framework7-svelte';
+  import { Button, Fab, FabButton, FabButtons, Icon, Page } from 'framework7-svelte';
+  import type { NodeView, ViewerConfig } from '../models/workspace';
   import WorkspaceExplorer from './workspace/WorkspaceExplorer.svelte';
   import WorkspaceViewer from './workspace/WorkspaceViewer.svelte';
 
   let showExplorer = true;
+  let viewer: ViewerConfig = { x: 0, y: 0, a: 0, zoom: 1 };
+  let nodes: NodeView[] = [
+    { x: 0, y: 0, a: 0, data: 'hello1' },
+    { x: 0, y: 100, a: 0, data: 'hello2' },
+    { x: 100, y: 0, a: 0, data: 'hello3' },
+  ];
+
+  function resetView() {
+    viewer = { x: 0, y: 0, a: 0, zoom: 1 };
+  }
 </script>
 
 <Page>
   <div class="workspace-container display-flex">
-    <WorkspaceExplorer class={!showExplorer ? 'collapsed' : 'expanded'} />
-    <WorkspaceViewer>
+    <WorkspaceExplorer {viewer} {nodes} class={!showExplorer ? 'collapsed' : 'expanded'} />
+    <WorkspaceViewer {viewer} {nodes}>
       <Button
         class="collapse-button"
         raised
@@ -24,12 +35,25 @@
         {/if}
       </Button>
     </WorkspaceViewer>
+    <Fab position="right-bottom">
+      <Icon material="add" />
+      <Icon material="close" />
+      <FabButtons position="left">
+        <FabButton fabClose>Add</FabButton>
+        <FabButton fabClose on:click={resetView}>Reset</FabButton>
+      </FabButtons>
+    </Fab>
   </div>
 </Page>
 
 <style lang="less">
   .workspace-container {
     height: 100%;
+
+    // Make the workspace explorer component elevated.
+    > :global(.workspace-explorer) {
+      z-index: 1000;
+    }
   }
 
   .workspace-container > :global(.collapsed) {

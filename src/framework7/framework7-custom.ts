@@ -14,7 +14,7 @@ import Button from 'framework7/components/button/button';
 // import DataTable from 'framework7/components/data-table/data-table';
 // import Dialog from 'framework7/components/dialog/dialog';
 // import Elevation from 'framework7/components/elevation/elevation';
-// import Fab from 'framework7/components/fab/fab';
+import Fab from 'framework7/components/fab/fab';
 // import Form from 'framework7/components/form/form';
 // import Gauge from 'framework7/components/gauge/gauge';
 // import Grid from 'framework7/components/grid/grid';
@@ -32,7 +32,7 @@ import Panel from 'framework7/components/panel/panel';
 // import PhotoBrowser from 'framework7/components/photo-browser/photo-browser';
 // import Picker from 'framework7/components/picker/picker';
 // import Popover from 'framework7/components/popover/popover';
-// import Popup from 'framework7/components/popup/popup';
+import Popup from 'framework7/components/popup/popup';
 // import Preloader from 'framework7/components/preloader/preloader';
 // import Progressbar from 'framework7/components/progressbar/progressbar';
 // import PullToRefresh from 'framework7/components/pull-to-refresh/pull-to-refresh';
@@ -71,7 +71,7 @@ Framework7.use([
   // DataTable,
   // Dialog,
   // Elevation,
-  // Fab,
+  Fab,
   // Form,
   // Gauge,
   // Grid,
@@ -89,7 +89,7 @@ Framework7.use([
   // PhotoBrowser,
   // Picker,
   // Popover,
-  // Popup,
+  Popup,
   // Preloader,
   // Progressbar,
   // PullToRefresh,

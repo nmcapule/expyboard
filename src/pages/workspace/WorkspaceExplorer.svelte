@@ -1,7 +1,10 @@
 <script lang="ts">
-  import { AccordionContent, Block, List, ListItem } from 'framework7-svelte';
+  import { AccordionContent, Block, Button, Icon, List, ListItem } from 'framework7-svelte';
   import { onMount } from 'svelte';
-  import type { Workspace } from '../../models/workspace';
+  import type { NodeView, ViewerConfig, Workspace } from '../../models/workspace';
+
+  export let viewer: ViewerConfig;
+  export let nodes: NodeView[] = [];
 
   export let workspace: Workspace = {
     id: 'dummy',
@@ -24,18 +27,29 @@
   let maxAccordionContentHeight = '100%';
   onMount(() => {
     maxAccordionContentHeight = `${calculateAccordionContentMaxHeight(
-      document.querySelector('.explorer-container > .list'),
+      document.querySelector('.workspace-explorer > .list'),
     )}px`;
   });
 </script>
 
-<div class="explorer-container elevation-5 display-flex flex-direction-column {$$props.class}">
-  <div class="title">{workspace.name}</div>
+<div class="workspace-explorer elevation-5 display-flex flex-direction-column {$$props.class}">
+  <div class="display-flex align-items-center justify-content-space-between">
+    <div class="title">{workspace.name}</div>
+    <div class="settings display-flex align-items-center justify-content-center">
+      <Button iconMaterial="settings" />
+    </div>
+  </div>
 
   <List accordionList accordionOpposite>
     <ListItem accordionItem title="Posts">
       <AccordionContent style="max-height:{maxAccordionContentHeight}">
-        <Block><p style="height:600px">Placeholder</p></Block>
+        <List>
+          {#each nodes as node}
+            <ListItem title={node.data} link="#">
+              <div slot="media" class="placeholder" />
+            </ListItem>
+          {/each}
+        </List>
       </AccordionContent>
     </ListItem>
     <ListItem accordionItem title="Threads and Pins">
@@ -52,7 +66,7 @@
 </div>
 
 <style lang="less">
-  .explorer-container {
+  .workspace-explorer {
     --f7-list-item-min-height: 32px;
     --f7-list-item-padding-vertical: 0;
 
@@ -72,16 +86,29 @@
     :global(.accordion-item-content) {
       overflow-y: auto;
     }
+
+    :global(.item-media > .placeholder) {
+      background-color: var(--color-dark-snow);
+      border-radius: 4px;
+      width: 40px;
+      height: 40px;
+      margin: 4px;
+    }
   }
 
-  .explorer-container {
+  .workspace-explorer {
     background-color: var(--color-snow);
     overflow-y: hidden;
     width: 400px;
 
-    > .title {
+    .title {
       font-size: 1.25em;
       padding: 12px;
+    }
+
+    .settings > :global(.button > .icon) {
+      color: var(--color-steel);
+      font-size: 20px;
     }
   }
 </style>

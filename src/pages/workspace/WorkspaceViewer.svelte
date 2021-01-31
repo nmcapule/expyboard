@@ -3,16 +3,14 @@
 
   import interact from 'interactjs';
   import { onDestroy, onMount } from 'svelte';
+  import type { NodeView, ViewerConfig } from '../../models/workspace';
+
+  export let viewer: ViewerConfig = { x: 0, y: 0, a: 0, zoom: 1 };
+  export let nodes: NodeView[] = [];
 
   const viewerElId = 'workspace-viewer';
   const viewerElSelector = '#' + CSS.escape(viewerElId);
   let viewerEl: HTMLElement;
-  let viewerState = {
-    x: 0,
-    y: 0,
-    a: 0,
-    zoom: 1,
-  };
 
   const pannableElId = 'workspace-viewer-handler';
   const pannableElSelector = '#' + CSS.escape(pannableElId);
@@ -24,10 +22,10 @@
       .draggable({
         listeners: {
           move: (event: DragEvent) => {
-            viewerState = {
-              ...viewerState,
-              x: viewerState.x + event.dx,
-              y: viewerState.y + event.dy,
+            viewer = {
+              ...viewer,
+              x: viewer.x + (viewer.disableDrag ? 0 : event.dx),
+              y: viewer.y + (viewer.disableDrag ? 0 : event.dy),
             };
           },
         },
@@ -35,12 +33,12 @@
       .gesturable({
         listeners: {
           move: (event: GestureEvent) => {
-            viewerState = {
-              ...viewerState,
-              x: viewerState.x + event.dx,
-              y: viewerState.y + event.dy,
-              a: viewerState.a + event.da,
-              zoom: viewerState.zoom + event.ds,
+            viewer = {
+              ...viewer,
+              x: viewer.x + (viewer.disableDrag ? 0 : event.dx),
+              y: viewer.y + (viewer.disableDrag ? 0 : event.dy),
+              a: viewer.a + (viewer.disableRotate ? 0 : event.da),
+              zoom: viewer.zoom + (viewer.disableZoom ? 0 : event.ds),
             };
           },
         },
@@ -53,24 +51,34 @@
 
   function handleMouseWheel(event: WheelEvent) {
     const adjust = (Math.log2(Math.abs(event.deltaY)) / 33) * -Math.sign(event.deltaY);
-    viewerState.zoom += adjust;
+    viewer.zoom += adjust;
+  }
+
+  function positionAsTransform(position) {
+    return [
+      `translate(${position.x || 0}px, ${position.y || 0}px)`,
+      `scale(${position.zoom || 1})`,
+      `rotate(${position.a || 0}deg)`,
+    ].join(' ');
   }
 
   $: {
     if (viewerEl) {
-      viewerEl.style.transform = [
-        `translate(${viewerState.x}px, ${viewerState.y}px)`,
-        `scale(${viewerState.zoom})`,
-        `rotate(${viewerState.a}deg)`,
-      ].join(' ');
+      viewerEl.style.transform = positionAsTransform(viewer);
       viewerEl.style.webkitTransform = viewerEl.style.transform;
     }
   }
 </script>
 
 <div class="workspace-viewer {$$props.class}">
-  <div id={viewerElId}>Hola world</div>
   <div id={pannableElId} class="overlay -gesturable" on:wheel={handleMouseWheel} />
+  <div id={viewerElId}>
+    {#each nodes as node}
+      <div class="overlay node" style="transform:{positionAsTransform(node)}">
+        {node.data}
+      </div>
+    {/each}
+  </div>
   <div class="overlay"><slot /></div>
 </div>
 
@@ -88,6 +96,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    .node {
+      position: absolute;
+    }
 
     > .overlay {
       position: absolute;
