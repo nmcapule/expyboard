@@ -2,7 +2,7 @@
   import { Page, Navbar, Toolbar, Link } from 'framework7-svelte';
   import type { Router } from 'framework7/modules/router/router';
 
-  import App from '../board/App.svelte';
+  import App from './playground/App.svelte';
 
   export let f7router: Router.Router;
 </script>
