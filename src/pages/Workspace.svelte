@@ -1,26 +1,36 @@
 <script lang="ts">
   import { Button, Fab, FabButton, FabButtons, Icon, Page } from 'framework7-svelte';
-  import type { NodeView, ViewerConfig } from '../models/workspace';
   import WorkspaceExplorer from './workspace/WorkspaceExplorer.svelte';
   import WorkspaceViewer from './workspace/WorkspaceViewer.svelte';
+  import { nodes, viewer } from './workspace/workspace.store';
 
   let showExplorer = true;
-  let viewer: ViewerConfig = { x: 0, y: 0, a: 0, zoom: 1 };
-  let nodes: NodeView[] = [
-    { x: 0, y: 0, a: 0, data: 'hello1' },
-    { x: 0, y: 100, a: 0, data: 'hello2' },
-    { x: 100, y: 0, a: 0, data: 'hello3' },
-  ];
+
+  function addNode() {
+    nodes.update((n) => [
+      ...n,
+      {
+        x: -$viewer.x / $viewer.zoom,
+        y: -$viewer.y / $viewer.zoom,
+        a: 0,
+        data: 'ola mutherfuckers',
+      },
+    ]);
+  }
 
   function resetView() {
-    viewer = { x: 0, y: 0, a: 0, zoom: 1 };
+    viewer.update((n) => ({ x: 0, y: 0, a: 0, zoom: 1 }));
   }
 </script>
 
 <Page>
   <div class="workspace-container display-flex">
-    <WorkspaceExplorer {viewer} {nodes} class={!showExplorer ? 'collapsed' : 'expanded'} />
-    <WorkspaceViewer {viewer} {nodes}>
+    <WorkspaceExplorer
+      viewer={$viewer}
+      nodes={$nodes}
+      class={!showExplorer ? 'collapsed' : 'expanded'}
+    />
+    <WorkspaceViewer bind:viewer={$viewer} nodes={$nodes}>
       <Button
         class="collapse-button"
         raised
@@ -39,7 +49,7 @@
       <Icon material="add" />
       <Icon material="close" />
       <FabButtons position="left">
-        <FabButton fabClose>Add</FabButton>
+        <FabButton fabClose on:click={addNode}>Add</FabButton>
         <FabButton fabClose on:click={resetView}>Reset</FabButton>
       </FabButtons>
     </Fab>

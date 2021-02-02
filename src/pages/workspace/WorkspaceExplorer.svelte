@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { AccordionContent, Block, Button, Icon, List, ListItem } from 'framework7-svelte';
+  import { AccordionContent, Block, Button, List, ListItem } from 'framework7-svelte';
   import { onMount } from 'svelte';
   import type { NodeView, ViewerConfig, Workspace } from '../../models/workspace';
 
+  // Inputs.
   export let viewer: ViewerConfig;
   export let nodes: NodeView[] = [];
 

@@ -2,9 +2,13 @@
   import type { DragEvent, GestureEvent } from '@interactjs/types';
 
   import interact from 'interactjs';
-  import { onDestroy, onMount } from 'svelte';
+  import { createEventDispatcher, onDestroy, onMount } from 'svelte';
   import type { NodeView, ViewerConfig } from '../../models/workspace';
 
+  // Dispatcher.
+  const dispatch = createEventDispatcher();
+
+  // Inputs.
   export let viewer: ViewerConfig = { x: 0, y: 0, a: 0, zoom: 1 };
   export let nodes: NodeView[] = [];
 
@@ -27,6 +31,7 @@
               x: viewer.x + (viewer.disableDrag ? 0 : event.dx),
               y: viewer.y + (viewer.disableDrag ? 0 : event.dy),
             };
+            dispatch('viewer', viewer);
           },
         },
       })
@@ -40,6 +45,7 @@
               a: viewer.a + (viewer.disableRotate ? 0 : event.da),
               zoom: viewer.zoom + (viewer.disableZoom ? 0 : event.ds),
             };
+            dispatch('viewer', viewer);
           },
         },
       });
