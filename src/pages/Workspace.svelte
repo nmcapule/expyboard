@@ -3,8 +3,15 @@
   import WorkspaceExplorer from './workspace/WorkspaceExplorer.svelte';
   import WorkspaceViewer from './workspace/WorkspaceViewer.svelte';
   import { nodes, viewer } from './workspace/workspace.store';
+  import { WorkspaceMode } from './workspace/workspace.constants';
+  import PostEditor from './workspace/PostEditor.svelte';
+
+  import type { NodeView } from '../models/workspace';
+  import type { Post } from '../models/post';
 
   let showExplorer = true;
+  let mode = WorkspaceMode.MODE_VIEWER;
+  let post: Post;
 
   function addNode() {
     nodes.update((n) => [
@@ -13,13 +20,18 @@
         x: -$viewer.x / $viewer.zoom,
         y: -$viewer.y / $viewer.zoom,
         a: 0,
-        data: 'ola mutherfuckers',
+        post: 'ola mutherfuckers',
       },
     ]);
   }
 
   function resetView() {
     viewer.update((n) => ({ x: 0, y: 0, a: 0, zoom: 1 }));
+  }
+
+  function focus(event: CustomEvent<NodeView>) {
+    mode = WorkspaceMode.MODE_EDIT;
+    post = event.detail.post;
   }
 </script>
 
@@ -29,30 +41,36 @@
       viewer={$viewer}
       nodes={$nodes}
       class={!showExplorer ? 'collapsed' : 'expanded'}
+      on:focus={focus}
     />
-    <WorkspaceViewer bind:viewer={$viewer} nodes={$nodes}>
-      <Button
-        class="collapse-button"
-        raised
-        round
-        color="white"
-        on:click={() => (showExplorer = !showExplorer)}
-      >
-        {#if showExplorer}
-          <Icon material="arrow_left" />
-        {:else}
-          <Icon material="arrow_right" />
-        {/if}
-      </Button>
-    </WorkspaceViewer>
-    <Fab position="right-bottom">
-      <Icon material="add" />
-      <Icon material="close" />
-      <FabButtons position="left">
-        <FabButton fabClose on:click={addNode}>Add</FabButton>
-        <FabButton fabClose on:click={resetView}>Reset</FabButton>
-      </FabButtons>
-    </Fab>
+
+    {#if mode === WorkspaceMode.MODE_VIEWER}
+      <WorkspaceViewer class="workspace-content" bind:viewer={$viewer} nodes={$nodes}>
+        <Button
+          class="collapse-button"
+          raised
+          round
+          color="white"
+          on:click={() => (showExplorer = !showExplorer)}
+        >
+          {#if showExplorer}
+            <Icon material="arrow_left" />
+          {:else}
+            <Icon material="arrow_right" />
+          {/if}
+        </Button>
+      </WorkspaceViewer>
+      <Fab position="right-bottom">
+        <Icon material="add" />
+        <Icon material="close" />
+        <FabButtons position="left">
+          <FabButton fabClose on:click={addNode}>Add</FabButton>
+          <FabButton fabClose on:click={resetView}>Reset</FabButton>
+        </FabButtons>
+      </Fab>
+    {:else if mode === WorkspaceMode.MODE_EDIT}
+      <PostEditor class="workspace-content" {post} />
+    {/if}
   </div>
 </Page>
 
@@ -63,6 +81,10 @@
     // Make the workspace explorer component elevated.
     > :global(.workspace-explorer) {
       z-index: 1000;
+    }
+
+    > :global(.workspace-content) {
+      flex-grow: 1;
     }
   }
 

@@ -19,10 +19,8 @@
   const pannableElId = 'workspace-viewer-handler';
   const pannableElSelector = '#' + CSS.escape(pannableElId);
 
-  onMount(() => {
-    viewerEl = document.querySelector(viewerElSelector);
-
-    interact(pannableElSelector)
+  function attachInteraction(selector: string) {
+    interact(selector)
       .draggable({
         listeners: {
           move: (event: DragEvent) => {
@@ -49,10 +47,19 @@
           },
         },
       });
+  }
+
+  function detachInteraction(selector) {
+    interact(selector).unset();
+  }
+
+  onMount(() => {
+    viewerEl = document.querySelector(viewerElSelector);
+    attachInteraction(pannableElSelector);
   });
 
   onDestroy(() => {
-    interact(pannableElSelector).unset();
+    detachInteraction(pannableElSelector);
   });
 
   function handleMouseWheel(event: WheelEvent) {
@@ -77,21 +84,19 @@
 </script>
 
 <div class="workspace-viewer {$$props.class}">
-  <div id={pannableElId} class="overlay -gesturable" on:wheel={handleMouseWheel} />
   <div id={viewerElId}>
     {#each nodes as node}
       <div class="overlay node" style="transform:{positionAsTransform(node)}">
-        {node.data}
+        {node.post}
       </div>
     {/each}
   </div>
+  <div id={pannableElId} class="overlay -gesturable" on:wheel={handleMouseWheel} />
   <div class="overlay"><slot /></div>
 </div>
 
 <style lang="less">
   .workspace-viewer {
-    width: 100%;
-    height: 100%;
     max-width: 100%;
     max-height: 100%;
     background-size: 20px 20px;

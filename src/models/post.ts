@@ -1,14 +1,14 @@
-/** Rendering type for the node. */
-export enum NodeType {
+/** Rendering type for the post. */
+export enum PostType {
   DUMMY,
   BASIC_PHOTO,
   BASIC_TEXT,
 }
 
-/** Encapsulates a node / post. */
-export interface Node {
+/** Encapsulates a post. */
+export interface Post {
   id: string;
-  type: NodeType;
+  type: PostType;
   title: string;
   data?:
     | string

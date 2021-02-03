@@ -21,5 +21,5 @@ export interface NodeView<T = any> {
   x: number;
   y: number;
   a: number;
-  data: T;
+  post: T;
 }

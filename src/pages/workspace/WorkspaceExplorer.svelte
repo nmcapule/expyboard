@@ -1,7 +1,10 @@
 <script lang="ts">
   import { AccordionContent, Block, Button, List, ListItem } from 'framework7-svelte';
-  import { onMount } from 'svelte';
+  import { createEventDispatcher, onMount } from 'svelte';
   import type { NodeView, ViewerConfig, Workspace } from '../../models/workspace';
+
+  // Dispatcher.
+  const dispatch = createEventDispatcher();
 
   // Inputs.
   export let viewer: ViewerConfig;
@@ -26,12 +29,22 @@
   }
 
   let maxAccordionContentHeight = '100%';
-  onMount(() => {
-    maxAccordionContentHeight = `${calculateAccordionContentMaxHeight(
-      document.querySelector('.workspace-explorer > .list'),
-    )}px`;
-  });
+  function setExplorerAccordionMaxHeight() {
+    setTimeout(() => {
+      maxAccordionContentHeight = `${calculateAccordionContentMaxHeight(
+        document.querySelector('.workspace-explorer > .list'),
+      )}px`;
+    }, 500);
+  }
+
+  onMount(setExplorerAccordionMaxHeight);
+
+  function focus(node: NodeView) {
+    dispatch('focus', node);
+  }
 </script>
+
+<svelte:window on:resize={setExplorerAccordionMaxHeight} />
 
 <div class="workspace-explorer elevation-5 display-flex flex-direction-column {$$props.class}">
   <div class="display-flex align-items-center justify-content-space-between">
@@ -42,11 +55,11 @@
   </div>
 
   <List accordionList accordionOpposite>
-    <ListItem accordionItem title="Posts">
+    <ListItem accordionItem title="Posts" accordionItemOpened>
       <AccordionContent style="max-height:{maxAccordionContentHeight}">
         <List>
           {#each nodes as node}
-            <ListItem title={node.data} link="#">
+            <ListItem title={node.post} link="#" on:click={focus(node)}>
               <div slot="media" class="placeholder" />
             </ListItem>
           {/each}
@@ -100,7 +113,7 @@
   .workspace-explorer {
     background-color: var(--color-snow);
     overflow-y: hidden;
-    width: 400px;
+    width: 320px;
 
     .title {
       font-size: 1.25em;
