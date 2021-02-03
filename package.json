@@ -8,6 +8,9 @@
     "validate": "svelte-check"
   },
   "dependencies": {
+    "@editorjs/editorjs": "^2.19.1",
+    "@editorjs/header": "^2.6.1",
+    "@editorjs/list": "^1.6.2",
     "framework7": "^5.7.14",
     "framework7-svelte": "^5.7.14",
     "interactjs": "^1.10.1",
