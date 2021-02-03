@@ -113,7 +113,6 @@
   .workspace-explorer {
     background-color: var(--color-snow);
     overflow-y: hidden;
-    width: 320px;
 
     .title {
       font-size: 1.25em;

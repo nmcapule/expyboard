@@ -76,15 +76,21 @@
 
 <style lang="less">
   .workspace-container {
+    --explorer-width: 320px;
+
     height: 100%;
 
     // Make the workspace explorer component elevated.
     > :global(.workspace-explorer) {
       z-index: 1000;
+      width: var(--explorer-width);
+      min-width: var(--explorer-width);
     }
 
     > :global(.workspace-content) {
       flex-grow: 1;
+      overflow: hidden;
+      position: relative;
     }
   }
 
@@ -92,7 +98,8 @@
     pointer-events: none;
     opacity: 0;
     width: 0 !important;
-    transition: width 0.25s, opacity 0.25s;
+    min-width: 0 !important;
+    transition: width 0.25s, min-width 0.25s, opacity 0.25s;
   }
 
   .workspace-container > :global(.expanded) {

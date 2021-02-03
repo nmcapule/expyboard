@@ -102,8 +102,6 @@
     background-size: 20px 20px;
     background-image: linear-gradient(to right, var(--color-dark-snow) 1px, transparent 1px),
       linear-gradient(to bottom, var(--color-dark-snow) 1px, transparent 1px);
-    overflow: hidden;
-    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
