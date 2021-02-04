@@ -1,32 +1,14 @@
 <script lang="ts">
-  import EditorJS from '@editorjs/editorjs';
-  import Header from '@editorjs/header';
-  import List from '@editorjs/list';
-  import { onDestroy, onMount } from 'svelte';
+  import ContentEditable from '../../components/ContentEditable.svelte';
   import type { Post } from '../../models/post';
 
   export let post: Post;
-
-  let editor: EditorJS;
-
-  onMount(() => {
-    editor = new EditorJS({
-      holder: 'editor',
-      tools: {
-        header: Header,
-        list: List,
-      },
-      minHeight: 0,
-    });
-  });
-
-  onDestroy(() => {
-    editor.destroy();
-  });
 </script>
 
-<div class="post-editor {$$props.class}">
-  <div class="editor-container" id="editor" />
+<div class="post-editor {$$props.class} flex-direction-column">
+  <div>
+    <ContentEditable class="editor-container" />
+  </div>
 </div>
 
 <style lang="less">
@@ -35,12 +17,12 @@
     align-items: center;
     justify-content: center;
     background-color: var(--color-light-marvel);
-  }
 
-  .editor-container {
-    width: 400px;
-    padding: 0 10px;
-    background-color: var(--color-white);
-    border-radius: 4px;
+    :global(.editor-container) {
+      width: 200px;
+      padding: 0 10px;
+      background-color: var(--color-white);
+      border-radius: 4px;
+    }
   }
 </style>

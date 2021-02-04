@@ -37,6 +37,20 @@
 
 <Page>
   <div class="workspace-container display-flex">
+    <Button
+      class="collapse-button {!showExplorer ? 'collapsed' : 'expanded'}"
+      raised
+      round
+      color="white"
+      on:click={() => (showExplorer = !showExplorer)}
+    >
+      {#if showExplorer}
+        <Icon material="arrow_left" />
+      {:else}
+        <Icon material="arrow_right" />
+      {/if}
+    </Button>
+
     <WorkspaceExplorer
       viewer={$viewer}
       nodes={$nodes}
@@ -45,21 +59,7 @@
     />
 
     {#if mode === WorkspaceMode.MODE_VIEWER}
-      <WorkspaceViewer class="workspace-content" bind:viewer={$viewer} nodes={$nodes}>
-        <Button
-          class="collapse-button"
-          raised
-          round
-          color="white"
-          on:click={() => (showExplorer = !showExplorer)}
-        >
-          {#if showExplorer}
-            <Icon material="arrow_left" />
-          {:else}
-            <Icon material="arrow_right" />
-          {/if}
-        </Button>
-      </WorkspaceViewer>
+      <WorkspaceViewer class="workspace-content" bind:viewer={$viewer} nodes={$nodes} />
       <Fab position="right-bottom">
         <Icon material="add" />
         <Icon material="close" />
@@ -79,6 +79,7 @@
     --explorer-width: 320px;
 
     height: 100%;
+    position: relative;
 
     // Make the workspace explorer component elevated.
     > :global(.workspace-explorer) {
@@ -87,33 +88,46 @@
       min-width: var(--explorer-width);
     }
 
+    > :global(.workspace-explorer.collapsed) {
+      pointer-events: none;
+      opacity: 0;
+      width: 0 !important;
+      min-width: 0 !important;
+      transition: width 0.25s, min-width 0.25s, opacity 0.25s;
+    }
+
+    > :global(.workspace-explorer.expanded) {
+      transition: width 0.25s, min-width 0.25s, opacity 0.25s;
+    }
+
     > :global(.workspace-content) {
       flex-grow: 1;
       overflow: hidden;
       position: relative;
     }
-  }
 
-  .workspace-container > :global(.collapsed) {
-    pointer-events: none;
-    opacity: 0;
-    width: 0 !important;
-    min-width: 0 !important;
-    transition: width 0.25s, min-width 0.25s, opacity 0.25s;
-  }
+    :global(.collapse-button) {
+      position: absolute;
+      z-index: 1000;
+      left: var(--explorer-width);
 
-  .workspace-container > :global(.expanded) {
-    transition: width 0.25s, opacity 0.25s;
-  }
+      background-color: var(--color-white);
+      color: var(--color-steel);
+      width: 40px;
+      height: 40px;
+      margin: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-  .workspace-container :global(.collapse-button) {
-    background-color: var(--color-white);
-    color: var(--color-steel);
-    width: 40px;
-    height: 40px;
-    margin: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    :global(.collapse-button.collapsed) {
+      left: 0;
+      transition: left 0.25s;
+    }
+
+    :global(.collapse-button.expanded) {
+      transition: left 0.25s;
+    }
   }
 </style>
