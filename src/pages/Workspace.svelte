@@ -4,7 +4,7 @@
 
   import WorkspaceExplorer from './workspace/WorkspaceExplorer.svelte';
   import WorkspaceViewer from './workspace/WorkspaceViewer.svelte';
-  import { nodes, viewer } from './workspace/workspace.store';
+  import { focusedNodes, nodes, viewer } from './workspace/workspace.store';
   import { WorkspaceMode } from './workspace/workspace.constants';
   import PostEditor from './workspace/PostEditor.svelte';
   import type { NodeView } from '../models/workspace';
@@ -37,14 +37,33 @@
   }
 
   function focus(event: CustomEvent<NodeView>) {
+    focusedNodes.set(new Set([event.detail.post.id]));
+  }
+
+  function edit(event: CustomEvent<NodeView>) {
     mode = WorkspaceMode.MODE_EDIT;
     post = event.detail.post;
+
+    focusedNodes.set(new Set([event.detail.post.id]));
   }
 
   function closeEditor() {
     mode = WorkspaceMode.MODE_VIEWER;
+
+    focusedNodes.set(new Set());
+  }
+
+  function handleKeydown(event: KeyboardEvent) {
+    switch (event.code) {
+      case 'Escape':
+        closeEditor();
+        event.preventDefault();
+        break;
+    }
   }
 </script>
+
+<svelte:window on:keydown={handleKeydown} />
 
 <Page>
   <div class="workspace-container display-flex">
@@ -67,10 +86,17 @@
       nodes={$nodes}
       class={!showExplorer ? 'collapsed' : 'expanded'}
       on:focus={focus}
+      on:edit={edit}
     />
 
     {#if mode === WorkspaceMode.MODE_VIEWER}
-      <WorkspaceViewer class="workspace-content" bind:viewer={$viewer} nodes={$nodes} />
+      <WorkspaceViewer
+        class="workspace-content"
+        bind:viewer={$viewer}
+        nodes={$nodes}
+        on:focus={focus}
+        on:edit={edit}
+      />
       <Fab position="right-bottom">
         <Icon material="add" />
         <Icon material="close" />

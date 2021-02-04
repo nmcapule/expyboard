@@ -1,15 +1,13 @@
 <script lang="ts">
   import { AccordionContent, Block, Button, List, ListItem } from 'framework7-svelte';
   import { createEventDispatcher, onMount } from 'svelte';
-  import type { NodeView, ViewerConfig, Workspace } from '../../models/workspace';
+  import type { NodeView, Workspace } from '../../models/workspace';
+  import { focusedNodes, nodes } from './workspace.store';
 
   // Dispatcher.
   const dispatch = createEventDispatcher();
 
   // Inputs.
-  export let viewer: ViewerConfig;
-  export let nodes: NodeView[] = [];
-
   export let workspace: Workspace = {
     id: 'dummy',
     name: 'Experimental Workspace #1',
@@ -42,6 +40,10 @@
   function focus(node: NodeView) {
     dispatch('focus', node);
   }
+
+  function edit(node: NodeView) {
+    dispatch('edit', node);
+  }
 </script>
 
 <svelte:window on:resize={setExplorerAccordionMaxHeight} />
@@ -58,8 +60,14 @@
     <ListItem accordionItem title="Posts" accordionItemOpened>
       <AccordionContent style="max-height:{maxAccordionContentHeight}">
         <List>
-          {#each nodes as node}
-            <ListItem title={node.post.title} link="#" on:click={focus(node)}>
+          {#each $nodes as node}
+            <ListItem
+              class={$focusedNodes.has(node.post.id) ? 'focused-node' : ''}
+              title={node.post.title}
+              link="#"
+              on:click={focus(node)}
+              on:dblclick={edit(node)}
+            >
               <div slot="media" class="placeholder" />
             </ListItem>
           {/each}
@@ -107,6 +115,10 @@
       width: 40px;
       height: 40px;
       margin: 4px;
+    }
+
+    :global(.focused-node) {
+      background-color: var(--color-snow);
     }
   }
 

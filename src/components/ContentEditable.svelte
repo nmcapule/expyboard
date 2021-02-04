@@ -20,7 +20,6 @@
   let editor: EditorJS;
 
   onMount(() => {
-    editor?.destroy();
     editor = new EditorJS({
       holder: elementIdSelector,
       tools: {
@@ -34,12 +33,17 @@
   });
 
   onDestroy(() => {
-    editor.destroy();
+    // Editor errors out if destroyed without being ready.
+    editor.isReady.then(() => editor.destroy());
   });
 
   async function save() {
     const data = await editor.save();
     console.log(data);
+  }
+
+  $: {
+    editor?.readOnly?.toggle(readOnly);
   }
 </script>
 

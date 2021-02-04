@@ -3,7 +3,9 @@
 
   import interact from 'interactjs';
   import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+  import ContentEditable from '../../components/ContentEditable.svelte';
   import type { NodeView, ViewerConfig } from '../../models/workspace';
+  import { focusedNodes } from './workspace.store';
 
   // Dispatcher.
   const dispatch = createEventDispatcher();
@@ -62,6 +64,14 @@
     detachInteraction(pannableElSelector);
   });
 
+  function focus(node: NodeView) {
+    dispatch('focus', node);
+  }
+
+  function edit(node: NodeView) {
+    dispatch('edit', node);
+  }
+
   function handleMouseWheel(event: WheelEvent) {
     const adjust = (Math.log2(Math.abs(event.deltaY)) / 33) * -Math.sign(event.deltaY);
     viewer.zoom += adjust;
@@ -83,15 +93,26 @@
   }
 </script>
 
-<div class="workspace-viewer {$$props.class}">
+<div
+  id={pannableElId}
+  class="workspace-viewer -gesturable {$$props.class}"
+  on:wheel={handleMouseWheel}
+>
   <div id={viewerElId}>
     {#each nodes as node}
-      <div class="overlay node" style="transform:{positionAsTransform(node)}">
-        {JSON.stringify(node.post, null, 2)}
+      <div
+        class="overlay node"
+        class:-focused={$focusedNodes.has(node.post.id)}
+        style="transform:{positionAsTransform(node)}"
+        on:click={() => focus(node)}
+        on:dblclick={() => edit(node)}
+      >
+        <ContentEditable readOnly={true}>
+          {JSON.stringify(node.post, null, 2)}
+        </ContentEditable>
       </div>
     {/each}
   </div>
-  <div id={pannableElId} class="overlay -gesturable" on:wheel={handleMouseWheel} />
   <div class="overlay"><slot /></div>
 </div>
 
@@ -106,21 +127,26 @@
     align-items: center;
     justify-content: center;
 
+    &.-gesturable {
+      width: 100%;
+      height: 100%;
+      touch-action: none;
+      user-select: none;
+    }
+
     .node {
       position: absolute;
+
+      &.-focused {
+        box-shadow: 0px 0px 4px var(--color-steel);
+        transition: box-shadow 0.25s;
+      }
     }
 
     > .overlay {
       position: absolute;
       top: 0;
       left: 0;
-
-      &.-gesturable {
-        width: 100%;
-        height: 100%;
-        touch-action: none;
-        user-select: none;
-      }
     }
   }
 </style>

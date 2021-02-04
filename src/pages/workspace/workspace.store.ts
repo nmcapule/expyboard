@@ -4,6 +4,8 @@ import { PostType } from '../../models/post';
 
 import type { NodeView, ViewerConfig } from '../../models/workspace';
 
+export const focusedNodes = writable<Set<string>>(new Set());
+
 export const nodes = writable<NodeView[]>([
   {
     x: 0,
