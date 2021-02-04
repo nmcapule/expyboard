@@ -1,12 +1,14 @@
 <script lang="ts">
   import { Button, Fab, FabButton, FabButtons, Icon, Page } from 'framework7-svelte';
+  import { v4 as uuidv4 } from 'uuid';
+
   import WorkspaceExplorer from './workspace/WorkspaceExplorer.svelte';
   import WorkspaceViewer from './workspace/WorkspaceViewer.svelte';
   import { nodes, viewer } from './workspace/workspace.store';
   import { WorkspaceMode } from './workspace/workspace.constants';
   import PostEditor from './workspace/PostEditor.svelte';
-
   import type { NodeView } from '../models/workspace';
+  import { PostType } from '../models/post';
   import type { Post } from '../models/post';
 
   let showExplorer = true;
@@ -20,7 +22,12 @@
         x: -$viewer.x / $viewer.zoom,
         y: -$viewer.y / $viewer.zoom,
         a: 0,
-        post: 'ola mutherfuckers',
+        post: {
+          id: uuidv4(),
+          title: 'ola momomo',
+          type: PostType.BASIC_TEXT,
+          data: 'ola mutherfuckers',
+        },
       },
     ]);
   }
@@ -32,6 +39,10 @@
   function focus(event: CustomEvent<NodeView>) {
     mode = WorkspaceMode.MODE_EDIT;
     post = event.detail.post;
+  }
+
+  function closeEditor() {
+    mode = WorkspaceMode.MODE_VIEWER;
   }
 </script>
 
@@ -69,7 +80,7 @@
         </FabButtons>
       </Fab>
     {:else if mode === WorkspaceMode.MODE_EDIT}
-      <PostEditor class="workspace-content" {post} />
+      <PostEditor class="workspace-content" {post} on:close={closeEditor} />
     {/if}
   </div>
 </Page>

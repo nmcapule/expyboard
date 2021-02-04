@@ -87,7 +87,7 @@
   <div id={viewerElId}>
     {#each nodes as node}
       <div class="overlay node" style="transform:{positionAsTransform(node)}">
-        {node.post}
+        {JSON.stringify(node.post, null, 2)}
       </div>
     {/each}
   </div>

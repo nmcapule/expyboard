@@ -44,7 +44,6 @@
 </script>
 
 <div id={elementIdSelector} class="content-editable {$$props.class}" />
-<button on:click={save}>SAVE</button>
 
 <style lang="less">
   .content-editable {

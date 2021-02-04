@@ -59,7 +59,7 @@
       <AccordionContent style="max-height:{maxAccordionContentHeight}">
         <List>
           {#each nodes as node}
-            <ListItem title={node.post} link="#" on:click={focus(node)}>
+            <ListItem title={node.post.title} link="#" on:click={focus(node)}>
               <div slot="media" class="placeholder" />
             </ListItem>
           {/each}
