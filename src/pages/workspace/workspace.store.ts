@@ -1,8 +1,8 @@
 import { writable } from 'svelte/store';
 import { v4 as uuidv4 } from 'uuid';
+import type { InteractiveConfig } from '../../models/interactive';
 import { PostType } from '../../models/post';
-
-import type { NodeView, ViewerConfig } from '../../models/workspace';
+import type { NodeView } from '../../models/workspace';
 
 export const focusedNodes = writable<Set<string>>(new Set());
 
@@ -27,7 +27,7 @@ export const nodes = writable<NodeView[]>([
   },
 ]);
 
-export const viewer = writable<ViewerConfig>({
+export const viewer = writable<InteractiveConfig>({
   x: 0,
   y: 0,
   a: 0,
