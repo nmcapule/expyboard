@@ -1,37 +1,36 @@
 <script lang="ts">
   import { Button, Icon } from 'framework7-svelte';
   import { createEventDispatcher } from 'svelte';
+  import { v4 as uuidv4 } from 'uuid';
   import ContentEditable from '../../components/ContentEditable.svelte';
+  import Interactive from '../../components/Interactive.svelte';
+  import PostRenderer from '../../components/PostRenderer.svelte';
   import type { Post } from '../../models/post';
 
   const EVENT_CLOSE = 'close';
 
   const dispatch = createEventDispatcher();
   export let post: Post;
+
+  const id = uuidv4();
 </script>
 
-<div class="post-editor {$$props.class} flex-direction-column">
-  <ContentEditable class="editor-container" />
-
+<Interactive class="post-editor flex-direction-column {$$props.class}" targetId={id}>
+  <div {id}>
+    <PostRenderer {post} readOnly={false} />
+  </div>
   <Button class="close-button" round color="white" on:click={() => dispatch(EVENT_CLOSE)}>
     <Icon material="close" />
   </Button>
-</div>
+</Interactive>
 
 <style lang="less">
-  .post-editor {
+  :global(.post-editor) {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: var(--color-light-marvel);
-
-    :global(.editor-container) {
-      width: 400px;
-      padding: 0 10px;
-      background-color: var(--color-white);
-      border-radius: 4px;
-    }
 
     :global(.close-button) {
       position: absolute;

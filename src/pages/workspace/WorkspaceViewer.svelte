@@ -26,7 +26,7 @@
   }
 </script>
 
-<Interactive class="workspace-viewer {$$props.class}" interactive={viewer} targetId={viewerId}>
+<Interactive class="workspace-viewer {$$props.class}" bind:interactive={viewer} targetId={viewerId}>
   <div id={viewerId}>
     {#each nodes as node}
       <div
@@ -49,6 +49,7 @@
   :global(.workspace-viewer) {
     max-width: 100%;
     max-height: 100%;
+    background-color: var(--color-white);
     background-size: 20px 20px;
     background-image: linear-gradient(to right, var(--color-dark-snow) 1px, transparent 1px),
       linear-gradient(to bottom, var(--color-dark-snow) 1px, transparent 1px);
@@ -60,7 +61,7 @@
       position: absolute;
 
       &.-focused {
-        .animated-border();
+        .animated-border(var(--color-steel));
       }
     }
 
