@@ -44,6 +44,8 @@
 </Interactive>
 
 <style lang="less">
+  @import '../../styles/mixins.less';
+
   :global(.workspace-viewer) {
     max-width: 100%;
     max-height: 100%;
@@ -57,30 +59,8 @@
     .node {
       position: absolute;
 
-      &.-focused::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-
-        background-image: linear-gradient(90deg, var(--color-dark-green) 50%, transparent 50%),
-          linear-gradient(90deg, var(--color-dark-green) 50%, transparent 50%),
-          linear-gradient(0deg, var(--color-dark-green) 50%, transparent 50%),
-          linear-gradient(0deg, var(--color-dark-green) 50%, transparent 50%);
-        background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
-        background-size: 15px 2px, 15px 2px, 2px 15px, 2px 15px;
-        background-position: left top, right bottom, left bottom, right top;
-        animation: border-dance 1s infinite linear;
-      }
-      @keyframes border-dance {
-        0% {
-          background-position: left top, right bottom, left bottom, right top;
-        }
-        100% {
-          background-position: left 15px top, right 15px bottom, left bottom 15px, right top 15px;
-        }
+      &.-focused {
+        .animated-border();
       }
     }
 
