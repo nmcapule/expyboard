@@ -87,7 +87,9 @@
       class={!showExplorer ? 'collapsed' : 'expanded'}
       on:focus={focus}
       on:edit={edit}
-    />
+    >
+      {JSON.stringify($viewer)}
+    </WorkspaceExplorer>
 
     {#if mode === WorkspaceMode.MODE_VIEWER}
       <WorkspaceViewer

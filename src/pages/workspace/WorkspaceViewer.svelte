@@ -26,7 +26,7 @@
   }
 </script>
 
-<Interactive class="workspace-viewer {$$props.class}" interactive={viewer} targetId={viewerId}>
+<Interactive class="workspace-viewer {$$props.class}" bind:interactive={viewer} targetId={viewerId}>
   <div id={viewerId}>
     {#each nodes as node}
       <div
@@ -47,11 +47,10 @@
   @import '../../styles/mixins.less';
 
   :global(.workspace-viewer) {
+    .background-grid();
+
     max-width: 100%;
     max-height: 100%;
-    background-size: 20px 20px;
-    background-image: linear-gradient(to right, var(--color-dark-snow) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--color-dark-snow) 1px, transparent 1px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -60,7 +59,7 @@
       position: absolute;
 
       &.-focused {
-        .animated-border();
+        .animated-border(var(--color-steel));
       }
     }
 

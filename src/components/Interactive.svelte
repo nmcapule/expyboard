@@ -7,7 +7,7 @@
   import type { InteractiveConfig } from '../models/interactive';
 
   // Bind me two-ways.
-  export let interactive: InteractiveConfig;
+  export let interactive: InteractiveConfig = { x: 0, y: 0, a: 0 };
   export let targetId: string;
 
   const interactiveElId = `interactive-${uuidv4()}`;

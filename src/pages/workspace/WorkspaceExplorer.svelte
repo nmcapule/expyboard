@@ -85,6 +85,7 @@
       </AccordionContent>
     </ListItem>
   </List>
+  <slot />
 </div>
 
 <style lang="less">

@@ -25,3 +25,10 @@
     background-position: left 15px top, right 15px bottom, left bottom 15px, right top 15px;
   }
 }
+
+.background-grid(@color: var(--color-dark-snow), @size: 20px, @background-color: var(--color-white)) {
+  background-color: @background-color;
+  background-size: @size @size;
+  background-image: linear-gradient(to right, @color 1px, transparent 1px),
+    linear-gradient(to bottom, @color 1px, transparent 1px);
+}
