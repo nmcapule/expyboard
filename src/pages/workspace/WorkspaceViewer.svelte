@@ -4,6 +4,7 @@
   import interact from 'interactjs';
   import { createEventDispatcher, onDestroy, onMount } from 'svelte';
   import ContentEditable from '../../components/ContentEditable.svelte';
+  import PostRenderer from '../../components/PostRenderer.svelte';
   import type { NodeView, ViewerConfig } from '../../models/workspace';
   import { focusedNodes } from './workspace.store';
 
@@ -107,9 +108,7 @@
         on:click={() => focus(node)}
         on:dblclick={() => edit(node)}
       >
-        <ContentEditable readOnly={true}>
-          {JSON.stringify(node.post, null, 2)}
-        </ContentEditable>
+        <PostRenderer readOnly={true} post={node.post} />
       </div>
     {/each}
   </div>
@@ -137,9 +136,30 @@
     .node {
       position: absolute;
 
-      &.-focused {
-        box-shadow: 0px 0px 4px var(--color-steel);
-        transition: box-shadow 0.25s;
+      &.-focused::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        background-image: linear-gradient(90deg, var(--color-dark-green) 50%, transparent 50%),
+          linear-gradient(90deg, var(--color-dark-green) 50%, transparent 50%),
+          linear-gradient(0deg, var(--color-dark-green) 50%, transparent 50%),
+          linear-gradient(0deg, var(--color-dark-green) 50%, transparent 50%);
+        background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+        background-size: 15px 2px, 15px 2px, 2px 15px, 2px 15px;
+        background-position: left top, right bottom, left bottom, right top;
+        animation: border-dance 1s infinite linear;
+      }
+      @keyframes border-dance {
+        0% {
+          background-position: left top, right bottom, left bottom, right top;
+        }
+        100% {
+          background-position: left 15px top, right 15px bottom, left bottom 15px, right top 15px;
+        }
       }
     }
 

@@ -6,16 +6,9 @@ export enum PostType {
 }
 
 /** Encapsulates a post. */
-export interface Post {
+export interface Post<T = any> {
   id: string;
   type: PostType;
   title: string;
-  data?:
-    | string
-    | {
-        text: string;
-      }
-    | {
-        dummy: string;
-      };
+  data?: T;
 }
