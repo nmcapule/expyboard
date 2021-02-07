@@ -13,6 +13,10 @@
   const viewerId = `viewer-${uuidv4()}`;
   const viewerSelector = '#' + CSS.escape(viewerId);
 
+  function resetViewer() {
+    viewer.set({ x: 0, y: 0, a: 0, s: 1 });
+  }
+
   function focus(node: NodeView) {
     dispatch('focus', node);
   }
@@ -30,8 +34,8 @@
           }
           return {
             ...node,
-            x: node.x + event.detail.x,
-            y: node.y + event.detail.y,
+            x: node.x + event.detail.x / $viewer.s,
+            y: node.y + event.detail.y / $viewer.s,
             a: node.a + event.detail.a,
           };
         }),
@@ -58,7 +62,7 @@
   use:interactive={{
     position: $viewer,
     draggable: true,
-    rotatable: true,
+    rotatable: $focusedNodes?.size > 0,
     scalable: true,
     deltaOnly: true,
     targetSelector: viewerSelector,
@@ -66,7 +70,7 @@
   on:delta={deltaPosition}
   class="workspace-viewer {$$props.class}"
 >
-  <div class="overlay -full" use:interactive on:tap={tapWorkspace} />
+  <div class="overlay -full" use:interactive on:tap={tapWorkspace} on:doubletap={resetViewer} />
   <div id={viewerId}>
     {#each $nodes as node}
       <div

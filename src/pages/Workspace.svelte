@@ -1,6 +1,8 @@
 <script lang="ts">
+  import { onDestroy, onMount } from 'svelte';
   import { Button, Fab, FabButton, FabButtons, Icon, Page } from 'framework7-svelte';
   import { v4 as uuidv4 } from 'uuid';
+  import localforage from 'localforage';
 
   import WorkspaceExplorer from './workspace/WorkspaceExplorer.svelte';
   import WorkspaceViewer from './workspace/WorkspaceViewer.svelte';
@@ -11,9 +13,21 @@
   import { PostType } from '../models/post';
   import type { Post } from '../models/post';
 
+  const workspaceId = 'default-workspace';
+
   let showExplorer = true;
   let mode = WorkspaceMode.MODE_VIEWER;
   let post: Post;
+
+  const detach = nodes.subscribe(async (v) => {
+    await localforage.setItem(workspaceId, v);
+  });
+
+  onMount(async () => {
+    nodes.set(await localforage.getItem(workspaceId));
+  });
+
+  onDestroy(detach);
 
   function addNode() {
     nodes.update((n) => [

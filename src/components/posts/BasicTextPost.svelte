@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte';
+
   import type { Post } from '../../models/post';
   import EjsInstance from '../EJSInstance.svelte';
 
@@ -7,7 +9,7 @@
 </script>
 
 <div class="basic-text">
-  <EjsInstance {readOnly} bind:data={post.data} />
+  <EjsInstance {readOnly} data={post.data} on:edit />
 </div>
 
 <style lang="less">

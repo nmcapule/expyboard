@@ -9,7 +9,7 @@
 
 <div class="post-renderer" class:-editing={!readOnly}>
   {#if post.type === PostType.BASIC_TEXT}
-    <BasicTextPost {post} {readOnly} />
+    <BasicTextPost {post} {readOnly} on:edit />
   {:else if post.type === PostType.BASIC_PHOTO}
     <div>Basic Photo</div>
   {:else}

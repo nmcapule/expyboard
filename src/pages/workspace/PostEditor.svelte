@@ -5,6 +5,7 @@
   import { interactive } from '../../actions/interactive';
   import PostRenderer from '../../components/PostRenderer.svelte';
   import type { Post } from '../../models/post';
+  import { nodes } from './workspace.store';
 
   const EVENT_CLOSE = 'close';
 
@@ -13,6 +14,23 @@
 
   const id = uuidv4();
   const selector = '#' + CSS.escape(id);
+
+  function edit(event: CustomEvent) {
+    nodes.update((nodes) =>
+      nodes.map((node) => {
+        if (node.post.id !== post.id) {
+          return node;
+        }
+        return {
+          ...node,
+          post: {
+            ...node.post,
+            data: event.detail,
+          },
+        };
+      }),
+    );
+  }
 </script>
 
 <div
@@ -25,7 +43,7 @@
   class="post-editor flex-direction-column {$$props.class}"
 >
   <div {id}>
-    <PostRenderer {post} readOnly={false} />
+    <PostRenderer {post} readOnly={false} on:edit={edit} />
   </div>
   <Button class="close-button" round color="white" on:click={() => dispatch(EVENT_CLOSE)}>
     <Icon material="close" />

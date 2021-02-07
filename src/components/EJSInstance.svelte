@@ -11,9 +11,7 @@
 
   const dispatch = createEventDispatcher();
 
-  export let data: OutputData = {
-    blocks: [{ type: 'paragraph', data: { text: 'Placeholder' } }],
-  };
+  export let data: OutputData = { blocks: [] };
   export let readOnly = false;
 
   const elementId = uuidv4();
@@ -41,8 +39,12 @@
       readOnly,
       minHeight: 0,
       onChange: async () => {
-        data = await editor.save();
-        dispatch('edit', data);
+        try {
+          const data = await editor.save();
+          dispatch('edit', data);
+        } catch (e) {
+          console.warn('saved after destroying editor:', e);
+        }
       },
     });
   });
@@ -52,9 +54,21 @@
     editor.isReady.then(() => editor.destroy());
   });
 
-  $: {
-    editor?.readOnly?.toggle(readOnly);
+  async function render() {
+    if (!editor) {
+      return;
+    }
+
+    await editor.readOnly?.toggle(readOnly);
+    if (data.blocks) {
+      await editor.blocks?.render(data);
+    }
   }
+
+  $: if (editor) {
+    editor?.isReady.then(render);
+  }
+  $: data && render();
 </script>
 
 <div id={elementIdSelector} class="content-editable {$$props.class}" />
