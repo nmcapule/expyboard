@@ -12,7 +12,7 @@ import Button from 'framework7/components/button/button';
 // import ColorPicker from 'framework7/components/color-picker/color-picker';
 // import ContactsList from 'framework7/components/contacts-list/contacts-list';
 // import DataTable from 'framework7/components/data-table/data-table';
-// import Dialog from 'framework7/components/dialog/dialog';
+import Dialog from 'framework7/components/dialog/dialog';
 // import Elevation from 'framework7/components/elevation/elevation';
 import Fab from 'framework7/components/fab/fab';
 // import Form from 'framework7/components/form/form';
@@ -69,7 +69,7 @@ Framework7.use([
   // ColorPicker,
   // ContactsList,
   // DataTable,
-  // Dialog,
+  Dialog,
   // Elevation,
   Fab,
   // Form,

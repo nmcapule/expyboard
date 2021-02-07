@@ -25,6 +25,10 @@
     dispatch('edit', node);
   }
 
+  function hold(node: NodeView) {
+    dispatch('hold', node);
+  }
+
   function deltaPosition(event: CustomEvent<Position>) {
     if ($focusedNodes?.size) {
       nodes.set(
@@ -56,6 +60,10 @@
   function doubleTapNode(event: CustomEvent, node: NodeView) {
     edit(node);
   }
+
+  function holdNode(event: CustomEvent, node: NodeView) {
+    hold(node);
+  }
 </script>
 
 <div
@@ -79,6 +87,7 @@
         use:interactive={{ position: node }}
         on:tap={(event) => tapNode(event, node)}
         on:doubletap={(event) => doubleTapNode(event, node)}
+        on:hold={(event) => holdNode(event, node)}
       >
         {#if $focusedNodes.has(node.post.id)}
           <div class="annotation">{node.post.title}</div>

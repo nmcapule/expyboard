@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onDestroy, onMount } from 'svelte';
-  import { Button, Fab, FabButton, FabButtons, Icon, Page } from 'framework7-svelte';
+  import { f7, Button, Fab, Icon, Page } from 'framework7-svelte';
   import { v4 as uuidv4 } from 'uuid';
   import localforage from 'localforage';
 
@@ -12,6 +12,7 @@
   import type { NodeView } from '../models/workspace';
   import { PostType } from '../models/post';
   import type { Post } from '../models/post';
+  import DialogComponent from 'framework7/components/dialog/dialog';
 
   const workspaceId = 'default-workspace';
 
@@ -24,12 +25,14 @@
   });
 
   onMount(async () => {
-    nodes.set(await localforage.getItem(workspaceId));
+    nodes.set((await localforage.getItem(workspaceId)) || []);
   });
 
   onDestroy(detach);
 
   function addNode() {
+    const uuid = uuidv4();
+
     nodes.update((n) => [
       ...n,
       {
@@ -37,17 +40,13 @@
         y: -$viewer.y / $viewer.s,
         a: 0,
         post: {
-          id: uuidv4(),
-          title: 'ola momomo',
+          id: uuid,
+          title: uuid.slice(0, 12),
           type: PostType.BASIC_TEXT,
           data: {},
         },
       },
     ]);
-  }
-
-  function resetView() {
-    viewer.update((n) => ({ x: 0, y: 0, a: 0, zoom: 1 }));
   }
 
   function focus(event: CustomEvent<NodeView>) {
@@ -64,6 +63,38 @@
     post = event.detail.post;
 
     focusedNodes.set(new Set([event.detail.post.id]));
+  }
+
+  function remove(event: CustomEvent<NodeView>) {
+    post = event.detail.post;
+
+    focusedNodes.set(new Set());
+    nodes.update((nodes) => nodes.filter((node) => node.post.id !== post.id));
+  }
+
+  function hold(event: CustomEvent<NodeView>) {
+    const node = event.detail;
+
+    f7.dialog
+      .create({
+        title: node.post.title,
+        buttons: [
+          {
+            text: 'Edit Node',
+            onClick: (dialog, event) => {
+              edit(new CustomEvent('edit', { detail: node }));
+            },
+          },
+          {
+            text: 'Delete Node',
+            onClick: (dialog, event) => {
+              remove(new CustomEvent('remove', { detail: node }));
+            },
+          },
+        ],
+        verticalButtons: true,
+      })
+      .open();
   }
 
   function closeEditor() {
@@ -106,17 +137,13 @@
       class={!showExplorer ? 'collapsed' : 'expanded'}
       on:focus={focus}
       on:edit={edit}
+      on:hold={hold}
     />
 
     {#if mode === WorkspaceMode.MODE_VIEWER}
-      <WorkspaceViewer class="workspace-content" on:focus={focus} on:edit={edit} />
-      <Fab position="right-bottom">
+      <WorkspaceViewer class="workspace-content" on:focus={focus} on:edit={edit} on:hold={hold} />
+      <Fab position="right-bottom" on:click={addNode}>
         <Icon material="add" />
-        <Icon material="close" />
-        <FabButtons position="left">
-          <FabButton fabClose on:click={addNode}>Add</FabButton>
-          <FabButton fabClose on:click={resetView}>Reset</FabButton>
-        </FabButtons>
       </Fab>
     {:else if mode === WorkspaceMode.MODE_EDIT}
       <PostEditor class="workspace-content" {post} on:close={closeEditor} />

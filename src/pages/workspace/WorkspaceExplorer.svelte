@@ -45,6 +45,10 @@
   function edit(node: NodeView) {
     dispatch('edit', node);
   }
+
+  function hold(node: NodeView) {
+    dispatch('hold', node);
+  }
 </script>
 
 <svelte:window on:resize={setExplorerAccordionMaxHeight} />
@@ -74,6 +78,7 @@
                 use:interactive
                 on:tap={() => focus(node)}
                 on:doubletap={() => edit(node)}
+                on:hold={() => hold(node)}
               />
             </ListItem>
           {/each}
