@@ -1,4 +1,3 @@
-import type { InteractiveConfig } from './interactive';
 import type { Post } from './post';
 
 /** Workspace container and identifier. */

@@ -1,10 +1,9 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { v4 as uuidv4 } from 'uuid';
-  import Interactive from '../../components/Interactive.svelte';
+  import { interactive, transform } from '../../actions/interactive';
+  import type { Position } from '../../actions/interactive';
   import PostRenderer from '../../components/PostRenderer.svelte';
-  import { positionAsTransform } from '../../models/interactive';
-  import type { InteractiveConfig } from '../../models/interactive';
   import type { NodeView } from '../../models/workspace';
   import { focusedNodes } from './workspace.store';
 
@@ -12,10 +11,11 @@
   const dispatch = createEventDispatcher();
 
   // Inputs.
-  export let viewer: InteractiveConfig = { x: 0, y: 0, a: 0, zoom: 1 };
+  export let viewer: Position = { x: 0, y: 0, a: 0, s: 1 };
   export let nodes: NodeView[] = [];
 
   const viewerId = `viewer-${uuidv4()}`;
+  const viewerSelector = '#' + CSS.escape(viewerId);
 
   function focus(node: NodeView) {
     dispatch('focus', node);
@@ -26,22 +26,32 @@
   }
 </script>
 
-<Interactive class="workspace-viewer {$$props.class}" bind:interactive={viewer} targetId={viewerId}>
+<div
+  use:interactive={{
+    position: viewer,
+    draggable: true,
+    rotatable: true,
+    scalable: true,
+    targetSelector: viewerSelector,
+  }}
+  on:position={(event) => (viewer = event.detail)}
+  class="workspace-viewer {$$props.class}"
+>
   <div id={viewerId}>
     {#each nodes as node}
       <div
         class="overlay node"
         class:-focused={$focusedNodes.has(node.post.id)}
-        style="transform:{positionAsTransform(node)}"
-        on:click={() => focus(node)}
-        on:dblclick={() => edit(node)}
+        use:interactive={{ position: node }}
+        on:tap={() => focus(node)}
+        on:doubletap={() => edit(node)}
       >
         <PostRenderer readOnly={true} post={node.post} />
       </div>
     {/each}
   </div>
   <div class="overlay"><slot /></div>
-</Interactive>
+</div>
 
 <style lang="less">
   @import '../../styles/mixins.less';

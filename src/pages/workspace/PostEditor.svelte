@@ -2,8 +2,7 @@
   import { Button, Icon } from 'framework7-svelte';
   import { createEventDispatcher } from 'svelte';
   import { v4 as uuidv4 } from 'uuid';
-  import ContentEditable from '../../components/ContentEditable.svelte';
-  import Interactive from '../../components/Interactive.svelte';
+  import { interactive } from '../../actions/interactive';
   import PostRenderer from '../../components/PostRenderer.svelte';
   import type { Post } from '../../models/post';
 
@@ -13,16 +12,25 @@
   export let post: Post;
 
   const id = uuidv4();
+  const selector = '#' + CSS.escape(id);
 </script>
 
-<Interactive class="post-editor flex-direction-column {$$props.class}" targetId={id}>
+<div
+  use:interactive={{
+    draggable: true,
+    rotatable: true,
+    scalable: true,
+    targetSelector: selector,
+  }}
+  class="post-editor flex-direction-column {$$props.class}"
+>
   <div {id}>
     <PostRenderer {post} readOnly={false} />
   </div>
   <Button class="close-button" round color="white" on:click={() => dispatch(EVENT_CLOSE)}>
     <Icon material="close" />
   </Button>
-</Interactive>
+</div>
 
 <style lang="less">
   @import '../../styles/mixins.less';

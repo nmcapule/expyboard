@@ -1,6 +1,7 @@
 <script lang="ts">
   import { AccordionContent, Block, Button, List, ListItem } from 'framework7-svelte';
   import { createEventDispatcher, onMount } from 'svelte';
+  import { interactive } from '../../actions/interactive';
   import type { NodeView, Workspace } from '../../models/workspace';
   import { focusedNodes, nodes } from './workspace.store';
 
@@ -65,10 +66,15 @@
               class={$focusedNodes.has(node.post.id) ? 'focused-node' : ''}
               title={node.post.title}
               link="#"
-              on:click={focus(node)}
-              on:dblclick={edit(node)}
             >
               <div slot="media" class="placeholder" />
+              <div
+                slot="content"
+                class="item-overlay"
+                use:interactive
+                on:tap={() => focus(node)}
+                on:doubletap={() => edit(node)}
+              />
             </ListItem>
           {/each}
         </List>
@@ -116,6 +122,13 @@
       width: 40px;
       height: 40px;
       margin: 4px;
+    }
+
+    :global(.item-content > .item-overlay) {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
     }
 
     :global(.focused-node) {

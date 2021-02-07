@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 import { v4 as uuidv4 } from 'uuid';
-import type { InteractiveConfig } from '../../models/interactive';
+import type { Position } from '../../actions/interactive';
 import { PostType } from '../../models/post';
 import type { NodeView } from '../../models/workspace';
 
@@ -27,9 +27,9 @@ export const nodes = writable<NodeView[]>([
   },
 ]);
 
-export const viewer = writable<InteractiveConfig>({
-  x: 0,
+export const viewer = writable<Position>({
+  x: -100,
   y: 0,
   a: 0,
-  zoom: 1,
+  s: 1,
 });
