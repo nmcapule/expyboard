@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { v4 as uuidv4 } from 'uuid';
-  import { interactive, transform } from '../../actions/interactive';
+  import { combinePosition, interactive } from '../../actions/interactive';
   import type { Position } from '../../actions/interactive';
   import PostRenderer from '../../components/PostRenderer.svelte';
   import type { NodeView } from '../../models/workspace';
@@ -24,6 +24,38 @@
   function edit(node: NodeView) {
     dispatch('edit', node);
   }
+
+  function deltaPosition(event: CustomEvent<Position>) {
+    if ($focusedNodes?.size) {
+      $focusedNodes.forEach((id) => {
+        nodes = nodes.map((node) => {
+          if (node.post.id !== id) {
+            return node;
+          }
+          return {
+            ...node,
+            x: node.x + event.detail.x,
+            y: node.y + event.detail.y,
+            a: node.a + event.detail.a,
+          };
+        });
+      });
+    } else {
+      viewer = combinePosition(viewer, event.detail);
+    }
+  }
+
+  function tapWorkspace(event: CustomEvent) {
+    focus(null);
+  }
+
+  function tapNode(event: CustomEvent, node: NodeView) {
+    focus(node);
+  }
+
+  function doubleTapNode(event: CustomEvent, node: NodeView) {
+    edit(node);
+  }
 </script>
 
 <div
@@ -32,19 +64,21 @@
     draggable: true,
     rotatable: true,
     scalable: true,
+    deltaOnly: true,
     targetSelector: viewerSelector,
   }}
-  on:position={(event) => (viewer = event.detail)}
+  on:delta={deltaPosition}
   class="workspace-viewer {$$props.class}"
 >
+  <div class="overlay -full" use:interactive on:tap={tapWorkspace} />
   <div id={viewerId}>
     {#each nodes as node}
       <div
         class="overlay node"
         class:-focused={$focusedNodes.has(node.post.id)}
         use:interactive={{ position: node }}
-        on:tap={() => focus(node)}
-        on:doubletap={() => edit(node)}
+        on:tap={(event) => tapNode(event, node)}
+        on:doubletap={(event) => doubleTapNode(event, node)}
       >
         <PostRenderer readOnly={true} post={node.post} />
       </div>
@@ -77,6 +111,11 @@
       position: absolute;
       top: 0;
       left: 0;
+
+      &.-full {
+        width: 100%;
+        height: 100%;
+      }
     }
   }
 </style>

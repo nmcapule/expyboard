@@ -31,6 +31,7 @@ export interface Config {
   draggable?: boolean;
   rotatable?: boolean;
   scalable?: boolean;
+  deltaOnly?: boolean;
   targetSelector?: string;
   position?: Position;
 }
@@ -40,12 +41,17 @@ export function interactive(node: HTMLElement, config: Config = {}) {
   node.style.userSelect = 'none';
 
   let position: Position = config.position || { x: 0, y: 0, a: 0, s: 1 };
+  let delta: Position = { x: 0, y: 0, a: 0, s: 0 };
 
   let target: HTMLElement = node;
   if (config.targetSelector) {
     target = document.querySelector(config.targetSelector);
   }
   function applyPosition() {
+    // Skip applying position if deltaOnly is true.
+    if (!config.deltaOnly) {
+      position = combinePosition(position, delta);
+    }
     target.style.transform = transform(position);
     target.style.webkitTransform = target.style.transform;
   }
@@ -55,6 +61,7 @@ export function interactive(node: HTMLElement, config: Config = {}) {
   function updatePosition() {
     applyPosition();
     node.dispatchEvent(new CustomEvent('position', { detail: position }));
+    node.dispatchEvent(new CustomEvent('delta', { detail: delta }));
   }
 
   function attachInteraction(node: HTMLElement, config: Config) {
@@ -63,10 +70,11 @@ export function interactive(node: HTMLElement, config: Config = {}) {
       handle.draggable({
         listeners: {
           move: (event: DragEvent) => {
-            position = {
-              ...position,
-              x: position.x + (config.draggable ? event.dx : 0),
-              y: position.y + (config.draggable ? event.dy : 0),
+            delta = {
+              x: config.draggable ? event.dx : 0,
+              y: config.draggable ? event.dy : 0,
+              a: 0,
+              s: 0,
             };
             updatePosition();
           },
@@ -77,12 +85,11 @@ export function interactive(node: HTMLElement, config: Config = {}) {
       handle.gesturable({
         listeners: {
           move: (event: GestureEvent) => {
-            position = {
-              ...position,
-              x: position.x + (config.draggable ? event.dx : 0),
-              y: position.y + (config.draggable ? event.dy : 0),
-              a: position.a + (config.rotatable ? event.da : 0),
-              s: position.s + (config.scalable ? event.ds : 0),
+            delta = {
+              x: config.draggable ? event.dx : 0,
+              y: config.draggable ? event.dy : 0,
+              a: config.rotatable ? event.da : 0,
+              s: config.scalable ? event.ds : 0,
             };
             updatePosition();
           },
@@ -107,8 +114,12 @@ export function interactive(node: HTMLElement, config: Config = {}) {
   return {
     update(newConfig: Config) {
       if (config.position !== newConfig?.position) {
-        config.position = newConfig.position;
+        position = config.position = newConfig.position;
         applyPosition();
+      }
+      // For configs that don't need reinitialization.
+      if (config.deltaOnly !== newConfig.deltaOnly) {
+        config = newConfig;
       }
       // Not exactly generic, but it's our only use case for now.
       // Consider using fast-deep-equals library.

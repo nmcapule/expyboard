@@ -25,6 +25,7 @@
     editor = new EditorJS({
       holder: elementIdSelector,
       tools: {
+        // https://gitmemory.com/issue/codex-team/editor.js/606/481599911
         paragraph: {
           config: { placeholder: 'Placeholder ' },
         } as any, // Needs as 'any' since missing class prop.
@@ -33,6 +34,7 @@
         },
         list: {
           class: List,
+          inlineToolbar: true,
         },
       },
       data,

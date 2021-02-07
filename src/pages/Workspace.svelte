@@ -37,7 +37,12 @@
   }
 
   function focus(event: CustomEvent<NodeView>) {
-    focusedNodes.set(new Set([event.detail.post.id]));
+    const node = event.detail;
+    if (node) {
+      focusedNodes.set(new Set([event.detail.post.id]));
+    } else {
+      focusedNodes.set(new Set());
+    }
   }
 
   function edit(event: CustomEvent<NodeView>) {
@@ -87,9 +92,7 @@
       class={!showExplorer ? 'collapsed' : 'expanded'}
       on:focus={focus}
       on:edit={edit}
-    >
-      {JSON.stringify($viewer)}
-    </WorkspaceExplorer>
+    />
 
     {#if mode === WorkspaceMode.MODE_VIEWER}
       <WorkspaceViewer

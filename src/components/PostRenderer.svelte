@@ -7,7 +7,7 @@
   export let readOnly = true;
 </script>
 
-<div class="post-renderer">
+<div class="post-renderer" class:-editing={!readOnly}>
   {#if post.type === PostType.BASIC_TEXT}
     <BasicTextPost {post} {readOnly} />
   {:else if post.type === PostType.BASIC_PHOTO}
@@ -19,5 +19,8 @@
 
 <style lang="less">
   .post-renderer {
+    &.-editing {
+      cursor: pointer;
+    }
   }
 </style>
