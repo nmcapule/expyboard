@@ -1,12 +1,13 @@
 <script lang="ts">
   import type { Post } from '../../models/post';
+  import EjsInstance from '../EJSInstance.svelte';
 
   export let post: Post;
   export let readOnly = true;
 </script>
 
 <div class="basic-text">
-  {post.data}
+  <EjsInstance {readOnly} bind:data={post.data} />
 </div>
 
 <style lang="less">

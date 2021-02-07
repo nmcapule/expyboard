@@ -2,12 +2,14 @@
   import EditorJS, { OutputData } from '@editorjs/editorjs';
   import Header from '@editorjs/header';
   import List from '@editorjs/list';
-  import { onDestroy, onMount } from 'svelte';
+  import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 
   import { v4 as uuidv4 } from 'uuid';
 
   // Note that there's a non-blocking (?) bug with rendering multiple editors.
   // https://github.com/codex-team/editor.js/issues/1503
+
+  const dispatch = createEventDispatcher();
 
   export let data: OutputData = {
     blocks: [{ type: 'paragraph', data: { text: 'Placeholder' } }],
@@ -23,12 +25,23 @@
     editor = new EditorJS({
       holder: elementIdSelector,
       tools: {
-        header: Header,
-        list: List,
+        paragraph: {
+          config: { placeholder: 'Placeholder ' },
+        } as any, // Needs as 'any' since missing class prop.
+        header: {
+          class: Header,
+        },
+        list: {
+          class: List,
+        },
       },
       data,
       readOnly,
       minHeight: 0,
+      onChange: async () => {
+        data = await editor.save();
+        dispatch('edit', data);
+      },
     });
   });
 
@@ -36,11 +49,6 @@
     // Editor errors out if destroyed without being ready.
     editor.isReady.then(() => editor.destroy());
   });
-
-  async function save() {
-    const data = await editor.save();
-    console.log(data);
-  }
 
   $: {
     editor?.readOnly?.toggle(readOnly);

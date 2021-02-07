@@ -19,14 +19,14 @@
     nodes.update((n) => [
       ...n,
       {
-        x: -$viewer.x / $viewer.zoom,
-        y: -$viewer.y / $viewer.zoom,
+        x: -$viewer.x / $viewer.s,
+        y: -$viewer.y / $viewer.s,
         a: 0,
         post: {
           id: uuidv4(),
           title: 'ola momomo',
           type: PostType.BASIC_TEXT,
-          data: 'ola mutherfuckers',
+          data: {},
         },
       },
     ]);

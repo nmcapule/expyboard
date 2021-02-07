@@ -11,19 +11,19 @@ export const nodes = writable<NodeView[]>([
     x: 0,
     y: 0,
     a: 0,
-    post: { id: uuidv4(), title: 'hello1', type: PostType.BASIC_TEXT, data: 'hello1' },
+    post: { id: uuidv4(), title: 'hello1', type: PostType.BASIC_TEXT, data: {} },
   },
   {
     x: 100,
     y: 50,
     a: 0,
-    post: { id: uuidv4(), title: 'hello2', type: PostType.BASIC_TEXT, data: 'hello2' },
+    post: { id: uuidv4(), title: 'hello2', type: PostType.BASIC_TEXT, data: {} },
   },
   {
     x: 200,
     y: 100,
     a: 0,
-    post: { id: uuidv4(), title: 'hello3', type: PostType.BASIC_TEXT, data: 'hello3' },
+    post: { id: uuidv4(), title: 'hello3', type: PostType.BASIC_TEXT, data: {} },
   },
 ]);
 
