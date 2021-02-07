@@ -76,6 +76,9 @@
         on:tap={(event) => tapNode(event, node)}
         on:doubletap={(event) => doubleTapNode(event, node)}
       >
+        {#if $focusedNodes.has(node.post.id)}
+          <div class="annotation">{node.post.title}</div>
+        {/if}
         <PostRenderer readOnly={true} post={node.post} />
       </div>
     {/each}
@@ -100,6 +103,17 @@
 
       &.-focused {
         .animated-border(var(--color-steel));
+        z-index: 100;
+      }
+
+      > .annotation {
+        position: absolute;
+        top: -14px;
+        font-size: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: var(--color-steel);
+        z-index: 100;
       }
     }
 
