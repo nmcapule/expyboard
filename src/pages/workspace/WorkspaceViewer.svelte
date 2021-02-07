@@ -5,14 +5,10 @@
   import type { Position } from '../../actions/interactive';
   import PostRenderer from '../../components/PostRenderer.svelte';
   import type { NodeView } from '../../models/workspace';
-  import { focusedNodes } from './workspace.store';
+  import { focusedNodes, nodes, viewer } from './workspace.store';
 
   // Dispatcher.
   const dispatch = createEventDispatcher();
-
-  // Inputs.
-  export let viewer: Position = { x: 0, y: 0, a: 0, s: 1 };
-  export let nodes: NodeView[] = [];
 
   const viewerId = `viewer-${uuidv4()}`;
   const viewerSelector = '#' + CSS.escape(viewerId);
@@ -27,9 +23,9 @@
 
   function deltaPosition(event: CustomEvent<Position>) {
     if ($focusedNodes?.size) {
-      $focusedNodes.forEach((id) => {
-        nodes = nodes.map((node) => {
-          if (node.post.id !== id) {
+      nodes.set(
+        $nodes.map((node) => {
+          if (!$focusedNodes.has(node.post.id)) {
             return node;
           }
           return {
@@ -38,10 +34,10 @@
             y: node.y + event.detail.y,
             a: node.a + event.detail.a,
           };
-        });
-      });
+        }),
+      );
     } else {
-      viewer = combinePosition(viewer, event.detail);
+      viewer.set(combinePosition($viewer, event.detail));
     }
   }
 
@@ -60,7 +56,7 @@
 
 <div
   use:interactive={{
-    position: viewer,
+    position: $viewer,
     draggable: true,
     rotatable: true,
     scalable: true,
@@ -72,7 +68,7 @@
 >
   <div class="overlay -full" use:interactive on:tap={tapWorkspace} />
   <div id={viewerId}>
-    {#each nodes as node}
+    {#each $nodes as node}
       <div
         class="overlay node"
         class:-focused={$focusedNodes.has(node.post.id)}

@@ -95,13 +95,7 @@
     />
 
     {#if mode === WorkspaceMode.MODE_VIEWER}
-      <WorkspaceViewer
-        class="workspace-content"
-        bind:viewer={$viewer}
-        nodes={$nodes}
-        on:focus={focus}
-        on:edit={edit}
-      />
+      <WorkspaceViewer class="workspace-content" on:focus={focus} on:edit={edit} />
       <Fab position="right-bottom">
         <Icon material="add" />
         <Icon material="close" />
