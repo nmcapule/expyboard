@@ -29,7 +29,13 @@
 {#if focused}
   <div class="post-title">{post.title}</div>
 {/if}
-<div class="post-renderer" class:-editing={!readOnly} class:-focused={focused}>
+<div
+  class="post-renderer"
+  class:-editing={!readOnly}
+  class:-focused={focused}
+  use:interactive={{ draggable: true, deltaOnly: true }}
+  on:delta={deltaPosition}
+>
   {#if post.type === PostType.BASIC_TEXT}
     <BasicTextPost {post} {readOnly} on:edit />
   {:else if post.type === PostType.BASIC_PHOTO}
