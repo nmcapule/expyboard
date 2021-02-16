@@ -75,6 +75,7 @@
         class:-focused={$focusedNodes.has(node.post.id)}
         use:interactive={{ position: node }}
         on:tap={(event) => tapNode(event, node)}
+        on:mouseover={() => tapNode(null, node)}
       >
         <PostRenderer
           readOnly={true}
@@ -102,6 +103,10 @@
 
     .node {
       position: absolute;
+
+      &.-focused {
+        z-index: 100;
+      }
     }
 
     > .overlay {

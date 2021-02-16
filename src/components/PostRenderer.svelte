@@ -40,13 +40,8 @@
 </div>
 {#if focused}
   <div class="post-controls">
-    <div class="control-button">
+    <div class="control-button -disabled">
       <Icon size="12" material="settings_overscan" />
-      <div
-        class="overlay"
-        use:interactive={{ draggable: true, deltaOnly: true }}
-        on:delta={deltaSize}
-      />
     </div>
     <div class="control-button">
       <Icon size="12" material="cached" />
@@ -94,11 +89,17 @@
     right: 0;
     bottom: calc(var(--button-size) * -1.3);
 
-    > :global(.control-button) {
+    > .control-button {
       .extend-f7-button(var(--button-size), var(--color-white), var(--color-steel), 3px);
       .custom-f7-button();
 
       position: relative;
+
+      &.-disabled {
+        background-color: var(--color-smoke);
+        border: 0;
+        color: var(--color-dark-smoke);
+      }
     }
 
     > :global(.control-button > .overlay) {
