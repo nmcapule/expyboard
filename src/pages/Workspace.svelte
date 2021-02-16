@@ -12,11 +12,10 @@
   import type { NodeView } from '../models/workspace';
   import { PostType } from '../models/post';
   import type { Post } from '../models/post';
-  import DialogComponent from 'framework7/components/dialog/dialog';
 
   const workspaceId = 'default-workspace';
 
-  let showExplorer = true;
+  let showExplorer = false;
   let mode = WorkspaceMode.MODE_VIEWER;
   let post: Post;
 
@@ -152,6 +151,8 @@
 </Page>
 
 <style lang="less">
+  @import '../styles/mixins.less';
+
   .workspace-container {
     --explorer-width: 320px;
 
@@ -183,27 +184,20 @@
       position: relative;
     }
 
-    :global(.collapse-button) {
+    > :global(.collapse-button) {
       position: absolute;
       z-index: 1000;
       left: var(--explorer-width);
 
-      background-color: var(--color-white);
-      color: var(--color-steel);
-      width: 40px;
-      height: 40px;
-      margin: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      .extend-f7-button();
     }
 
-    :global(.collapse-button.collapsed) {
+    > :global(.collapse-button.collapsed) {
       left: 0;
       transition: left 0.25s;
     }
 
-    :global(.collapse-button.expanded) {
+    > :global(.collapse-button.expanded) {
       transition: left 0.25s;
     }
   }

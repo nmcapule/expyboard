@@ -66,19 +66,8 @@
   }
 </script>
 
-<div
-  use:interactive={{
-    position: $viewer,
-    draggable: true,
-    rotatable: $focusedNodes?.size > 0,
-    scalable: true,
-    deltaOnly: true,
-    targetSelector: viewerSelector,
-  }}
-  on:delta={deltaPosition}
-  class="workspace-viewer {$$props.class}"
->
-  <div class="overlay -full" use:interactive on:tap={tapWorkspace} on:doubletap={resetViewer} />
+<div class="workspace-viewer {$$props.class}">
+  <div class="overlay -full" />
   <div id={viewerId}>
     {#each $nodes as node}
       <div
@@ -86,13 +75,13 @@
         class:-focused={$focusedNodes.has(node.post.id)}
         use:interactive={{ position: node }}
         on:tap={(event) => tapNode(event, node)}
-        on:doubletap={(event) => doubleTapNode(event, node)}
-        on:hold={(event) => holdNode(event, node)}
       >
-        {#if $focusedNodes.has(node.post.id)}
-          <div class="annotation">{node.post.title}</div>
-        {/if}
-        <PostRenderer readOnly={true} post={node.post} />
+        <PostRenderer
+          readOnly={true}
+          post={node.post}
+          focused={$focusedNodes.has(node.post.id)}
+          on:position={deltaPosition}
+        />
       </div>
     {/each}
   </div>
@@ -113,21 +102,6 @@
 
     .node {
       position: absolute;
-
-      &.-focused {
-        .animated-border(var(--color-steel));
-        z-index: 100;
-      }
-
-      > .annotation {
-        position: absolute;
-        top: -14px;
-        font-size: 10px;
-        font-weight: 600;
-        text-transform: uppercase;
-        color: var(--color-steel);
-        z-index: 100;
-      }
     }
 
     > .overlay {

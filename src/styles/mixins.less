@@ -1,3 +1,33 @@
+.extend-f7-button(@size: 40px, @background-color: var(--color-white), @color: var(--color-steel), @margin: 6px) {
+  background-color: @background-color;
+  color: @color;
+  width: @size;
+  height: @size;
+  margin: @margin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-f7-button() {
+  border-radius: 100%;
+  border: 1px outset var(--color-steel);
+
+  &:hover {
+    box-shadow: 0 0 1px 1px var(--color-steel);
+  }
+
+  &:active {
+    box-shadow: 0 0 0 2px var(--color-steel);
+  }
+}
+
+.overlay-f7-component() {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
 .animated-border(@color: var(--color-green)) {
   &::after {
     content: '';

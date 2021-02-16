@@ -7,7 +7,7 @@ export const focusedNodes = writable<Set<string>>(new Set());
 export const nodes = writable<NodeView[]>([]);
 
 export const viewer = writable<Position>({
-  x: -100,
+  x: 0,
   y: 0,
   a: 0,
   s: 1,
